@@ -161,7 +161,6 @@ def main(argv):
 
             d_error,d_pred_real,d_pred_fake = train_discriminator(d_optim,real_data,latent_data, discriminator, loss)
 
-
             # train the generator
             latent_data = generator(GenerateLatentVector(batch_size))
             g_error = train_generator(g_optim,latent_data, discriminator, loss)
