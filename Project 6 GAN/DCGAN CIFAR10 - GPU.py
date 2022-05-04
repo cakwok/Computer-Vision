@@ -21,8 +21,10 @@ def CIFAR10_data(batch_size_train):
     #------ Download Training and Testing Dataset.  * Mind the PATH here!
     train_loader = torch.utils.data.DataLoader(
       torchvision.datasets.CIFAR10('./dataset/', train=False, download=True,    #download remarked False after downloaded once
-      transform=torchvision.transforms.Compose([torchvision.transforms.ToTensor(),  transforms.Resize((64, 64)),
-      torchvision.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])),            #0.1307, 0.3081 = Global mean, Global SD
+      transform=torchvision.transforms.Compose([torchvision.transforms.ToTensor(),  transforms.Resize((64, 64))
+      #,
+      #torchvision.transforms.Normalize((0.5, 0.5, 0.5), (1, 1, 1))
+      ])),            #0.1307, 0.3081 = Global mean, Global SD
       batch_size=batch_size_train, shuffle=False)
     return train_loader
 
@@ -30,27 +32,27 @@ class Discriminator(torch.nn.Module):
     def __init__(self):
         super(Discriminator,self).__init__()
         self.hidden0 = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size = 4, stride = 2, padding = 1),
+            nn.Conv2d(3, 64, kernel_size = 4, stride = 2, padding = 1, bias=False),
             #nn.Dropout2d(0.3),
             nn.LeakyReLU(0.2)
         )
         self.hidden1 = nn.Sequential(
-            nn.Conv2d(64, 128, kernel_size = 4, stride = 2, padding = 1),
+            nn.Conv2d(64, 128, kernel_size = 4, stride = 2, padding = 1, bias=False),
             nn.BatchNorm2d(128),
             nn.LeakyReLU(0.2)
         )
         self.hidden2 = nn.Sequential(
-            nn.Conv2d(128, 256, kernel_size = 4, stride = 2, padding = 1),
+            nn.Conv2d(128, 256, kernel_size = 4, stride = 2, padding = 1, bias=False),
             nn.BatchNorm2d(256),
             nn.LeakyReLU(0.2)
         )
         self.hidden3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size = 4, stride = 2, padding = 1),
+            nn.Conv2d(256, 512, kernel_size = 4, stride = 2, padding = 1, bias=False),
             nn.BatchNorm2d(512),
             nn.LeakyReLU(0.2)
         )
         self.out = nn.Sequential(
-            nn.Conv2d(512, 1, kernel_size = 4, stride = 1, padding = 0),
+            nn.Conv2d(512, 1, kernel_size = 4, stride = 1, padding = 0, bias=False),
             nn.Sigmoid(),
             nn.Flatten()
         )
@@ -153,11 +155,18 @@ def load_learning_state(generator, discriminator, d_optim, g_optim):
 '''
 def save_learning_state(generator, discriminator, d_optim, g_optim):
     drive.mount('/content/gdrive')
-    torch.save(generator.state_dict(), '/content/gdrive/generator.pth')         #save neural network state
-    torch.save(discriminator.state_dict(), '/content/gdrive/discriminator.pth')         #save neural network state
-    torch.save(d_optim.state_dict(), '/content/gdrive/d_optim.pth')   #save optimizer state
-    torch.save(g_optim.state_dict(), '/content/gdrive/g_optim.pth')   #save optimizer state
+    torch.save(generator.state_dict(), '/content/gdrive/MyDrive/Colab Notebooks/generator.pth')         #save neural network state
+    torch.save(discriminator.state_dict(), '/content/gdrive/MyDrive/Colab Notebooks/discriminator.pth')         #save neural network state
+    torch.save(d_optim.state_dict(), '/content/gdrive/MyDrive/Colab Notebooks/d_optim.pth')   #save optimizer state
+    torch.save(g_optim.state_dict(), '/content/gdrive/MyDrive/Colab Notebooks/g_optim.pth')   #save optimizer state
 
+def weights_init(m):
+    classname = m.__class__.__name__
+    if classname.find('Conv') != -1:
+        torch.nn.init.normal_(m.weight, 0.0, 0.02)
+    elif classname.find('BatchNorm') != -1:
+        torch.nn.init.normal_(m.weight, 1.0, 0.02)
+        torch.nn.init.zeros_(m.bias)
 
 def main(argv):
 
@@ -192,6 +201,9 @@ def main(argv):
     generator = generator.to(device)
     discriminator = discriminator.to(device)
 
+    generator.apply(weights_init)
+    discriminator.apply(weights_init)
+
     generator = generator.float()
     discriminator = discriminator.float()
 
@@ -208,7 +220,7 @@ def main(argv):
 
     print(generator(test_noise).shape)      #output : torch.Size([16, 3, 64, 64])
 
-    num_epochs = 200
+    num_epochs = 80
 
     d_error_list = []; g_error_list = []; epochs_list = [];
     start_time = time.time()
@@ -239,7 +251,7 @@ def main(argv):
             print("D(x): {}, D(G(z)): {}".format(d_pred_real.mean(), d_pred_fake.mean()))
     
 
-    save_learning_state(generator, discriminator, d_optim, g_optim)
+    #save_learning_state(generator, discriminator, d_optim, g_optim)
 
     print("Run time (in second)", time.time() - start_time)
 
@@ -256,9 +268,10 @@ def main(argv):
         #plt.imshow(test_images[i][0], cmap='gray', interpolation = 'none')
         #plt.imshow(test_images[i][0].detach().numpy())
         #imshow(torchvision.utils.make_grid(test_images[i][0]))
-        plt.axis("off")
+        #plt.axis("off")
         image = test_images[i].cpu()
-        plt.imshow(np.transpose(image.detach().numpy(), (1,2,0)))
+        #plt.imshow(np.transpose(image.detach().numpy(), (1,2,0)))
+        plt.imshow(transforms.ToPILImage()(image))
         #plt.title("Latent Vector example")
         plt.xticks([])          #remove xtick
         plt.yticks([])          #remove ytick
