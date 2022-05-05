@@ -1,3 +1,7 @@
+'''
+Wing Man Casca, Kwok
+CS5330 Project 6 - DCGAN, CIFAR10 as RGB images dataset
+'''
 import torch
 from torch import nn, optim
 from torch.autograd.variable import Variable
@@ -8,32 +12,32 @@ import sys                                  #for .py to accept argumements
 import matplotlib.pyplot as plt
 import time                                 #for calculating run time of training
 import numpy as np
-from google.colab import drive
+from google.colab import drive               #for loading and saving training from google drive for google colab
 
-
+'''
 def images_to_vectors(images):
     return images.view(images.size(0), 784)
 
 def vectors_to_images(vectors):
     return vectors.view(vectors.size(0), 1, 28, 28)
+'''
 
 def CIFAR10_data(batch_size_train):
     #------ Download Training and Testing Dataset.  * Mind the PATH here!
+    #remarked normalization below, because otherwise imshow shows weired result
     train_loader = torch.utils.data.DataLoader(
-      torchvision.datasets.CIFAR10('./dataset/', train=False, download=True,    #download remarked False after downloaded once
+      torchvision.datasets.CIFAR10('./dataset/', train=False, download=True,   
       transform=torchvision.transforms.Compose([torchvision.transforms.ToTensor(),  transforms.Resize((64, 64))
-      #,
-      #torchvision.transforms.Normalize((0.5, 0.5, 0.5), (1, 1, 1))
-      ])),            #0.1307, 0.3081 = Global mean, Global SD
+      #, torchvision.transforms.Normalize((0.5, 0.5, 0.5), (1, 1, 1))
+      ])),            
       batch_size=batch_size_train, shuffle=False)
     return train_loader
 
-class Discriminator(torch.nn.Module):
+class Discriminator(torch.nn.Module):       #build a disciminator NN, classical convolutional NN
     def __init__(self):
         super(Discriminator,self).__init__()
         self.hidden0 = nn.Sequential(
             nn.Conv2d(3, 64, kernel_size = 4, stride = 2, padding = 1, bias=False),
-            #nn.Dropout2d(0.3),
             nn.LeakyReLU(0.2)
         )
         self.hidden1 = nn.Sequential(
@@ -58,7 +62,6 @@ class Discriminator(torch.nn.Module):
         )
 
     def forward(self,x):
-        #x = x.view(-1, 1, 28, 28)                       #it's fine for noise input, but real image needed to be reshaped
         x = self.hidden0(x)
         x = self.hidden1(x)
         x = self.hidden2(x)
@@ -72,15 +75,9 @@ def images_to_vectors(images):
 def vectors_to_images(vectors):
     return vectors.view(-1,1,28,28)
 
-class Generator(nn.Module):
+class Generator(nn.Module):       #build a generator NN, transposed converse is to upsampled the latent vector at each layer
     def __init__(self):
         super(Generator,self).__init__()
-        '''
-        self.hidden0 = nn.Sequential(
-            nn.Linear(100,256 * 7 * 7)
-            #nn.LeakyReLU(0.2)
-        )
-        '''
         self.hidden0 = nn.Sequential(
             nn.ConvTranspose2d(100,512, kernel_size = 4, stride = 1, padding = 0),
             nn.BatchNorm2d(512),
@@ -115,7 +112,7 @@ class Generator(nn.Module):
         return x
 
 def GenerateLatentVector(size, device):
-    return torch.randn(size,100, 1, 1).to(device)    #produces a tensor with gaussian, zero mean, variance 1
+    return torch.randn(size,100, 1, 1).to(device)    #randn produces a tensor with gaussian, zero mean, variance 1
 
 def ones_target(size, device):
     return torch.ones(size,1).to(device)
@@ -170,27 +167,24 @@ def weights_init(m):
 
 def main(argv):
 
-    torch.manual_seed(42)           #Generate 42 manual seeds and it's "reproducible" (fixed) for every run time
+    torch.manual_seed(42)                   #Generate 42 manual seeds and it's "reproducible" (fixed) for every run time
     torch.backends.cudnn.enabled = False    #Turn off CUDA, so all processing are serial to make sure result reproducible
 
     batch_size = 16
     data_loader = CIFAR10_data(batch_size)
 
-    #---- plot original cifar10 datasets
+    #---------------------------------- plot original cifar10 datasets
     def imshow(img):
         img = img / 2 + 0.5     # unnormalize
         npimg = img.numpy()
         plt.imshow(np.transpose(npimg, (1, 2, 0)))
 
-
-    # get some random training images
     dataiter = iter(data_loader)
     images, labels = dataiter.next()
 
-    # show images
     imshow(torchvision.utils.make_grid(images))
     plt.show()
-    #--- finished plotting cifar10
+    #----------------------------------- finished plotting cifar10
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(device)
@@ -220,7 +214,7 @@ def main(argv):
 
     print(generator(test_noise).shape)      #output : torch.Size([16, 3, 64, 64])
 
-    num_epochs = 80
+    num_epochs = 20
 
     d_error_list = []; g_error_list = []; epochs_list = [];
     start_time = time.time()
@@ -230,7 +224,6 @@ def main(argv):
         for n_batch, (real_batch, example_targets) in enumerate(data_loader):
 
             # train the discriminator
-            #real_data = real_batch.view(-1,784)
             real_data = real_batch.to(device)
             latent_data = generator(torch.randn(batch_size,100, 1, 1, device=device)).detach()
 
@@ -244,13 +237,11 @@ def main(argv):
         epochs_list.append(epoch)
         g_error_list.append(g_error.item())
 
-        if epoch % 20 == 0:
+        if epoch % 20 == 0:         #for every 20 epochs, monitor status
             print("Epoch: {}/{}".format(epoch, num_epochs))
             print("d_error (Error_real + error fake Loss)(Discriminator Loss): {}, Generator Loss: {}".format(d_error, g_error))
-            #compare mean of real and fake tensor.  their value should come closer and closer
             print("D(x): {}, D(G(z)): {}".format(d_pred_real.mean(), d_pred_fake.mean()))
     
-
     #save_learning_state(generator, discriminator, d_optim, g_optim)
 
     print("Run time (in second)", time.time() - start_time)
@@ -265,14 +256,8 @@ def main(argv):
     for i in range(6):
         plt.subplot(2, 3, i+1)
         plt.tight_layout()
-        #plt.imshow(test_images[i][0], cmap='gray', interpolation = 'none')
-        #plt.imshow(test_images[i][0].detach().numpy())
-        #imshow(torchvision.utils.make_grid(test_images[i][0]))
-        #plt.axis("off")
         image = test_images[i].cpu()
-        #plt.imshow(np.transpose(image.detach().numpy(), (1,2,0)))
         plt.imshow(transforms.ToPILImage()(image))
-        #plt.title("Latent Vector example")
         plt.xticks([])          #remove xtick
         plt.yticks([])          #remove ytick
     plt.show()
@@ -283,6 +268,7 @@ def main(argv):
     plt.plot(epochs_list, d_error_list, color='blue')
     plt.plot(epochs_list, g_error_list, color='red')
     plt.legend(['Discriminator Loss', 'Adversarial Loss'], loc='upper right')
+    plt.title("Plot of Loss Function against Epochs")
     plt.xlabel('Epoches')
     plt.ylabel('Loss')
     plt.show()
