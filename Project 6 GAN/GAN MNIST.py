@@ -115,21 +115,6 @@ def train_generator(optimizer,latent_data, discriminator, loss):
     optimizer.step()
     return error
 
-'''
-def load_learning_state(generator, discriminator, d_optim, g_optim):
-    generator_state_dict = torch.load('./results/generator.pth')
-    discriminator_state_dict = torch.load('./results/discriminator.pth')
-    d_optim_state_dict = torch.load('./results/d_optim.pth')
-    g_optim_state_dict = torch.load('./results/g_optim.pth')
-    return generator.load_state_dict(generator_state_dict), discriminator.load_state_dict(discriminator_state_dict), d_optim.load_state_dict(d_optim_state_dict), g_optim.load_state_dict(g_optim_state_dict)
-
-def save_learning_state(generator, discriminator, d_optim, g_optim):
-    torch.save(generator.state_dict(), './results/generator.pth')         #save neural network state
-    torch.save(discriminator.state_dict(), './results/discriminator.pth')         #save neural network state
-    torch.save(d_optim.state_dict(), './results/d_optim.pth')   #save optimizer state
-    torch.save(g_optim.state_dict(), './results/g_optim.pth')   #save optimizer state
-'''
-
 def main(argv):
 
     torch.manual_seed(42)                   #Generate 42 manual seeds and it's "reproducible" (fixed) for every run time
@@ -148,8 +133,6 @@ def main(argv):
 
     num_test_samples = 16
     test_noise = GenerateLatentVector(num_test_samples)
-
-    #load_learning_state(generator, discriminator, d_optim, g_optim)
 
     num_epochs = 100
 
@@ -177,8 +160,6 @@ def main(argv):
             print("d_error (Error_real + error fake Loss)(Discriminator Loss): {}, Generator Loss: {}".format(d_error, g_error))
             #compare mean of real and fake tensor.  their value should come closer and closer
             print("D(x): {}, D(G(z)): {}".format(d_pred_real.mean(), d_pred_fake.mean()))
-
-    #save_learning_state(generator, discriminator, d_optim, g_optim)
 
     test_images = vectors_to_images(generator(test_noise))
     test_images = test_images.data
