@@ -1,3 +1,7 @@
+'''
+Wing Man Casca, Kwok
+CS5330 Project 6 - GAN MNIST dataset
+'''
 import torch
 from torch import nn, optim
 from torch.autograd.variable import Variable
@@ -11,14 +15,13 @@ import matplotlib.pyplot as plt
 def mnist_data(batch_size_train):
     #------ Download Training and Testing Dataset.  * Mind the PATH here!
     train_loader = torch.utils.data.DataLoader(
-      torchvision.datasets.MNIST('./dataset/', train=False, download=True,    #download remarked False after downloaded once
+      torchvision.datasets.MNIST('./dataset/', train=False, download=True,    
       transform=torchvision.transforms.Compose([torchvision.transforms.ToTensor(),
-      torchvision.transforms.Normalize((0.5,), (0.5,))])),            #0.1307, 0.3081 = Global mean, Global SD
+      torchvision.transforms.Normalize((0.5,), (0.5,))])),         
       batch_size=batch_size_train, shuffle=False)
-
     return train_loader
 
-class Discriminator(torch.nn.Module):
+class Discriminator(torch.nn.Module):       #build a discriminator NN
     def __init__(self):
         super(Discriminator,self).__init__()
         self.hidden0 = nn.Sequential(
@@ -54,7 +57,7 @@ def images_to_vectors(images):
 def vectors_to_images(vectors):
     return vectors.view(-1,1,28,28)
 
-class Generator(nn.Module):
+class Generator(nn.Module):             #build a generator NN
     def __init__(self):
         super(Generator,self).__init__()
         self.hidden0 = nn.Sequential(
@@ -129,7 +132,7 @@ def save_learning_state(generator, discriminator, d_optim, g_optim):
 
 def main(argv):
 
-    torch.manual_seed(42)           #Generate 42 manual seeds and it's "reproducible" (fixed) for every run time
+    torch.manual_seed(42)                   #Generate 42 manual seeds and it's "reproducible" (fixed) for every run time
     torch.backends.cudnn.enabled = False    #Turn off CUDA, so all processing are serial to make sure result reproducible
 
     batch_size = 100
@@ -169,7 +172,7 @@ def main(argv):
         epochs_list.append(epoch)
         g_error_list.append(g_error.item())
 
-        if epoch % 20 == 0:
+        if epoch % 20 == 0:                         #for every 20 epochs, check status
             print("Epoch: {}/{}".format(epoch, num_epochs))
             print("d_error (Error_real + error fake Loss)(Discriminator Loss): {}, Generator Loss: {}".format(d_error, g_error))
             #compare mean of real and fake tensor.  their value should come closer and closer
@@ -177,16 +180,14 @@ def main(argv):
 
     #save_learning_state(generator, discriminator, d_optim, g_optim)
 
-    #print(d_error_list)
-    #print(g_error_list)
-
     test_images = vectors_to_images(generator(test_noise))
     test_images = test_images.data
 
+    #show generated images
     fig = plt.figure()
     title = "Epoch " + str(num_epochs)
     chart_global_title = fig.suptitle(title)
-    # show generated images
+    
     for i in range(6):
         plt.subplot(2, 3, i+1)
         plt.tight_layout()
@@ -201,6 +202,7 @@ def main(argv):
     plt.plot(epochs_list, d_error_list, color='blue')
     plt.plot(epochs_list, g_error_list, color='red')
     plt.legend(['Discriminator Loss', 'Adversarial Loss'], loc='upper right')
+    plt.title("Plot of Loss Function against Epochs")
     plt.xlabel('Epoches')
     plt.ylabel('Loss')
     plt.show()
