@@ -1,22 +1,11 @@
-# CS5330-Computer-Vision
-Main codes 
+
+Name
 -----------
-Q1a - 1e    Q1a - CnnCoreStructure.py
-Q1f - 1g    Q1f - Read trainned MNIST network3.py
-Q2          Q2a - Examine network.py
-Q3          Q3 Create a digit embedding.py
-Q4i         Q4i - Design your own experiment Epoch.py
-Q4ii        Q4ii - Design your own experiment batch size.py
-Q4iii       Q4iii - Design your own experiment batch normalization.py
+Wing Man Casca, Kwok
 
-Header files 
------------
-nil
-
-
-Operation System
+Project Description
 ----------------
-macOS 11.5.1, Atom, macOS terminal
+Implementation of Generative and Adversarial Networks and Results
 
 Video link
 ------------------------------
