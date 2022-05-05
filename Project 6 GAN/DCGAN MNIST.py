@@ -1,3 +1,7 @@
+'''
+Wing Man Casca, Kwok
+CS5330 Project 6 - DCGAN, MINST as dataset
+'''
 import torch
 from torch import nn, optim
 from torch.autograd.variable import Variable
@@ -15,16 +19,15 @@ def vectors_to_images(vectors):
     return vectors.view(vectors.size(0), 1, 28, 28)
 
 def mnist_data(batch_size_train):
-    #------ Download Training and Testing Dataset.  * Mind the PATH here!
+    #---------------------------- Download Training and Testing Dataset.  * Mind the PATH here!
     train_loader = torch.utils.data.DataLoader(
-      torchvision.datasets.MNIST('./dataset/', train=False, download=True,    #download remarked False after downloaded once
+      torchvision.datasets.MNIST('./dataset/', train=False, download=True,   
       transform=torchvision.transforms.Compose([torchvision.transforms.ToTensor(),
-      torchvision.transforms.Normalize((0.5,), (0.5,))])),            #0.1307, 0.3081 = Global mean, Global SD
+      torchvision.transforms.Normalize((0.5,), (0.5,))])),            
       batch_size=batch_size_train, shuffle=False)
-
     return train_loader
 
-class Discriminator(torch.nn.Module):
+class Discriminator(torch.nn.Module):           #Define Discriminator NN
     def __init__(self):
         super(Discriminator,self).__init__()
         self.hidden0 = nn.Sequential(
@@ -53,7 +56,7 @@ class Discriminator(torch.nn.Module):
         )
 
     def forward(self,x):
-        x = x.view(-1, 1, 28, 28)                       #it's fine for noise input, but real image needed to be reshaped
+        x = x.view(-1, 1, 28, 28)                      
         x = self.hidden0(x)
         x = self.hidden1(x)
         x = self.hidden2(x)
@@ -76,7 +79,7 @@ def images_to_vectors(images):
 def vectors_to_images(vectors):
     return vectors.view(-1,1,28,28)
 
-class Generator(nn.Module):
+class Generator(nn.Module):             #Define generator NN
     def __init__(self):
         super(Generator,self).__init__()
         self.hidden0 = nn.Sequential(
@@ -110,7 +113,7 @@ class Generator(nn.Module):
         return x
 
 def GenerateLatentVector(size):
-    return torch.randn(size,100)    #produces a tensor with gaussian, zero mean, variance 1
+    return torch.randn(size,100)    #randn produces a tensor with gaussian, zero mean, variance 1
 
 def ones_target(size):
     return torch.ones(size,1)
@@ -207,23 +210,20 @@ def main(argv):
 
     #save_learning_state(generator, discriminator, d_optim, g_optim)
 
-    #print(d_error_list)
-    #print(g_error_list)
-
     print("Run time (in second)", time.time() - start_time)
 
     test_images = vectors_to_images(generator(test_noise))
     test_images = test_images.data
 
+    # show generated images
     fig = plt.figure()
     title = "Epoch " + str(num_epochs)
     chart_global_title = fig.suptitle(title)
-    # show generated images
+   
     for i in range(6):
         plt.subplot(2, 3, i+1)
         plt.tight_layout()
         plt.imshow(test_images[i][0], cmap='gray', interpolation = 'none')
-        #plt.title("Latent Vector example")
         plt.xticks([])          #remove xtick
         plt.yticks([])          #remove ytick
     plt.show()
