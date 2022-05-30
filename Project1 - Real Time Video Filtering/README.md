@@ -2,7 +2,7 @@
 
 Hello world to computer vision!  In this project, the aim is to apply filters to live stream video pixel by pixel by C++. 
 
-I have built Guassian filter from scratch, creating grayscale live video, applying gradient magnitude to locate edges, quantizing a live video with color thresholdings, cartoonization, mirroring an image, contrast, meme generation and video recording, and recorded result as below.
+I have built Guassian filter from scratch, created grayscale live video, applied gradient magnitude to locate edges, quantized a live video with color thresholdings, cartoonization, mirroring an image, contrast, meme generation and video recording, and recorded result as below.
 
 ## Greyscale by cvtcolor
 
