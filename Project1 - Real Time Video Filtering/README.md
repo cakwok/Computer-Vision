@@ -1,12 +1,8 @@
 ## Description
 
-In this project, I would be practicing the principal of what we have learnt about a pixel or an image is composed of, what is colour, and mathematical models for image processing/filtering, by understanding a pixel value.  We firstly start with greyscale filters to understand the concept of colour channels composition and weightings.  
+Hello world to computer vision!  In this project, the aim is to apply filters to live stream video pixel by pixel by C++. 
 
-I created a 5x5 Gaussian filter to blur an image for the next step.  Gaussian filter is a low pass filter, is very commonly used for facial retouching.  It takes a crucial role of isolating colour and tone from texture (high frequency).
-
-To cartoonize an image, it took all together 5 filters.  The principle is finding edges by gradient magnitude, then on a quantised and blurred image, make the edges dark to simulate the effect of a cartoon.
-
-In the extension part, I have implemented additional filter from scratch by inverting pixels from left to right to produce an mirrored image.  My ultimate goal was to create a kaleidoscope.  I have also add interactions between camera and player, by creating a meme generator, video recording, and Chinese new year overlay.
+I have built Guassian filter from scratch, creating grayscale live video, applying gradient magnitude to locate edges, quantizing a live video with color thresholdings, cartoonization, mirroring an image, contrast, meme generation and video recording, and recorded result as below.
 
 ## Greyscale by cvtcolor
 
