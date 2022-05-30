@@ -19,10 +19,23 @@ using namespace std;
 int main(){
     
     Mat img, grey_image, dst;
-    Mat sobelx_16bit(img.rows, img.cols, CV_16SC3), sobely_16bit(img.rows, img.cols, CV_16SC3);
     Mat blur_16bit(img.rows, img.cols, CV_16SC3);
+    Mat blur_8bit;
+    Mat sobelx_16bit(img.rows, img.cols, CV_16SC3);
+    Mat sobelx_8bit;
+    Mat sobely_16bit(img.rows, img.cols, CV_16SC3);
+    Mat sobely_8bit;
+    Mat gradientmag_16bit(img.rows, img.cols, CV_16SC3);
+    Mat gradientmag_8bit;
     Mat quantize_16bit(img.rows, img.cols, CV_16SC3);
-    Mat highfreq_16bit(img.rows, img.cols, CV_16SC3);
+    Mat quantize_8bit;
+    Mat cartoon_16bit(img.rows, img.cols, CV_16SC3);
+    Mat cartoon_8bit;
+    Mat contrast_16bit(img.rows, img.cols, CV_16SC3);
+    Mat contrast_8bit;
+    Mat mirror_8bit;
+    string meme_text;
+    
     int key = waitKey(1);
     int newkey = waitKey(1);
     
@@ -48,92 +61,62 @@ int main(){
             imshow("Image", grey_image);
         }
         else if (key == 98) {   //press "b" to blur image by Guassian 5x5, Question 5
-            blur_16bit.create(img.rows, img.cols, CV_16SC3);
-            img.convertTo(img, CV_16SC3);
             blur5x5(img, blur_16bit);
-            Mat blur_8bit;
             convertScaleAbs(blur_16bit, blur_8bit);
             imshow("Image", blur_8bit);
         }
         else if (key == 120) {   //press "x" for sobel x, Question 6
-            sobelx_16bit.create(img.rows, img.cols, CV_16SC3);
-            sobelX3x3(img, sobelx_16bit );
-            
+            sobelX3x3(img, sobelx_16bit);
+            convertScaleAbs(sobelx_16bit, sobelx_8bit);
+            imshow("Image", sobelx_8bit);
         }
         else if (key == 121) {   //press "y", for Sobel Y, Question 6
-            sobely_16bit.create(img.rows, img.cols, CV_16SC3);
-            sobelY3x3(img, sobely_16bit );
-
+            sobelY3x3(img, sobely_16bit);
+            convertScaleAbs(sobely_16bit, sobely_8bit);
+            imshow("Image", sobely_8bit);
         }
         else if (key == 109) {   //press "m", Gradient Magnitude, Question 7
-    
-            sobelx_16bit.create(img.rows, img.cols, CV_16SC3);
-            sobelX3x3(img, sobelx_16bit );
-            
-            sobely_16bit.create(img.rows, img.cols, CV_16SC3);
-            sobelY3x3(img, sobely_16bit );
-           
-            Mat gradientmag_16bit(sobely_16bit.rows, sobely_16bit.cols, CV_16SC3);
-            gradientmag_16bit.create(sobely_16bit.rows, sobely_16bit.cols, CV_16SC3);
-            magnitude(sobelx_16bit, sobely_16bit, gradientmag_16bit );
+            sobelX3x3(img, sobelx_16bit);
+            sobelY3x3(img, sobely_16bit);
+            magnitude(sobelx_16bit, sobely_16bit, gradientmag_16bit);
+            convertScaleAbs(gradientmag_16bit, gradientmag_8bit);
+            imshow("Image", gradientmag_8bit);
         }
         else if (key == 108) {   //press "l", Quantizes an image, Question 8
-            blur_16bit.create(img.rows, img.cols, CV_16SC3);
-            img.convertTo(img, CV_16SC3);
             blur5x5(img, blur_16bit);
-            
-            quantize_16bit.create(blur_16bit.rows, blur_16bit.cols, CV_16SC3);
-            blurQuantize(blur_16bit, quantize_16bit, 15);
+            blurQuantize(blur_16bit, quantize_16bit, 15);        //15 -> color level threshold, 255/15 per level
+            convertScaleAbs(quantize_16bit, quantize_8bit);
+            imshow("Image", quantize_8bit);
         }
         
         else if (key == 99) {   //press "c", Cartoonize an image, Question 9
-            
-            sobelx_16bit.create(img.rows, img.cols, CV_16SC3);
             sobelX3x3(img, sobelx_16bit );
-            
-            sobely_16bit.create(img.rows, img.cols, CV_16SC3);
             sobelY3x3(img, sobely_16bit );
-           
-            Mat gradientmag_16bit(sobely_16bit.rows, sobely_16bit.cols, CV_16SC3);
-            gradientmag_16bit.create(sobely_16bit.rows, sobely_16bit.cols, CV_16SC3);
             magnitude(sobelx_16bit, sobely_16bit, gradientmag_16bit );
-            
-            blur_16bit.create(img.rows, img.cols, CV_16SC3);
-            img.convertTo(img, CV_16SC3);
             blur5x5(img, blur_16bit);
-            
-            quantize_16bit.create(blur_16bit.rows, blur_16bit.cols, CV_16SC3);
             blurQuantize(blur_16bit, quantize_16bit, 15);
-            
-            Mat cartoon_16bit(quantize_16bit.rows, quantize_16bit.cols, CV_16SC3);
-            cartoon_16bit.create(quantize_16bit.rows, quantize_16bit.cols, CV_16SC3);
-            cartoon(quantize_16bit, gradientmag_16bit, cartoon_16bit, 15, 20);
+            cartoon(quantize_16bit, gradientmag_16bit, cartoon_16bit, 15, 20);  //20 -> gradient magnitude level.  if > 20, then draw black line
 
-            Mat cartoon_8bit;
             convertScaleAbs(cartoon_16bit, cartoon_8bit);
             imshow("Image", cartoon_8bit);
-
         }
         else if (key == 111) {   //press "o", Contrast, Question 10
-            Mat contrast_16bit(img.rows, img.cols, CV_16SC3);
-            contrast_16bit.create(img.rows,img.cols, CV_16SC3);
-            contrast(img, contrast_16bit ) ;
-            
+            contrast(img, contrast_16bit);
+            convertScaleAbs(contrast_16bit, contrast_8bit);
+            imshow("Image", contrast_8bit);
         }
         else if (key == 49) {   //press "1", Extensions 1, Mirror
-            Mat mirror_8bit;
-            img.copyTo(mirror_8bit);
             mirror(img, mirror_8bit) ;
             imshow("Image", mirror_8bit);
         }
         else if (key == 50) {   //press "2", Extension 2, Meme
-            string text;
-            cout << "What is meme of the day? \n";
-            getline(cin, text);
-            cout << text << "\n";
-            putText(img, text, Point(50, 150), FONT_HERSHEY_DUPLEX, 1.5, Scalar(255,192,203),2,false);
+            meme(img, meme_text);
             imshow("Image", img);
-            imwrite("meme.png", img);
+            key = -2;
+        }
+        else if (key == -2) {   //if user has pressed to enter meme in above, keep on showing meme
+            putText(img, meme_text, Point(50, 150), FONT_HERSHEY_DUPLEX, 1.5, Scalar(255,192,203),2,false);
+            imshow("Image", img);
         }
         else if (key == 51) {   //press "3", Video recording
             VideoWriter writer;
@@ -152,23 +135,9 @@ int main(){
             }
         }
         else if (key == 52) {   //press "4", Blend 2 images
-            /*
-            blur_16bit.create(img.rows, img.cols, CV_16SC3);
-            img.convertTo(img, CV_16SC3);
-            blur5x5(img, blur_16bit);
-            
-            highfreq_16bit.create(img.rows, img.cols, CV_16SC3);
-            highfreq(img, blur_16bit, highfreq_16bit);
-         */
-            double alpha = 0.5; double beta; 
-            Mat cny;
-            beta = ( 1.0 - alpha );
-            cny = imread("cny.jpg");
-            addWeighted( cny, alpha, img, beta, 0.0, dst);
-            
-            imshow("cny", dst);
+            blending(img, dst);
+            imshow("Image", dst);
         }
-        
         else if (key == -1 or key == 32) {            //key == null or key == space
             imshow("Image", img);
         }
@@ -179,8 +148,7 @@ int main(){
             key = newkey;
         }
         
-        cap.read(img);
-        
+        cap.read(img);        
     }
     return 0;
 }
