@@ -5,23 +5,13 @@
 //  Created by Wing Man, Kwok on 22/1/2022.
 //
 //
-
-#include <iostream>
-#include </opt/homebrew/Cellar/opencv/4.5.4_3/include/opencv4/opencv2/core/core.hpp>
-#include </opt/homebrew/Cellar/opencv/4.5.4_3/include/opencv4/opencv2/imgcodecs.hpp>
-#include </opt/homebrew/Cellar/opencv/4.5.4_3/include/opencv4/opencv2/highgui.hpp>
-#include </opt/homebrew/Cellar/opencv/4.5.4_3/include/opencv4/opencv2/imgproc.hpp>
-#include </opt/homebrew/Cellar/opencv/4.5.4_3/include/opencv4/opencv2/opencv.hpp>
-#include </Users/casca/Library/Mobile Documents/com~apple~CloudDocs/Northeastern Courses/Northeastern 2022 Spring CS5330/CS 5330 - HW1/filter.cpp>
- 
-/*
 #include <iostream>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/opencv.hpp>
-*/
+#include "filter.h"
 
 using namespace cv;
 using namespace std;
@@ -34,13 +24,12 @@ int main(){
     Mat quantize_16bit(img.rows, img.cols, CV_16SC3);
     Mat highfreq_16bit(img.rows, img.cols, CV_16SC3);
     int key = waitKey(1);
+    int newkey = waitKey(1);
     
     VideoCapture cap(0);        //Task 2, open a video channel
-    cap.read(img);              //Task 2, create a window, and then loop, capturing a new frame, detect keystroke
+    cap.read(img);
     
     while (true) {
-        
-        imshow("Image", img);
         
         if (key == 113) {       //press "q" to quit, Question 2
             destroyAllWindows();
@@ -52,15 +41,11 @@ int main(){
         }
         else if (key == 103) {   //press "g" to greyscale by cvtcolor, Question 3
             cvtColor(img, grey_image, COLOR_BGR2GRAY);
-            //imwrite("Question3_output_grey.png", grey_image);
-            //imwrite("Question3_output_normal.png", img);
-            imshow("cvtColor Gray", grey_image);
+            imshow("Image", grey_image);
         }
         else if (key == 104) {   //press "h" to greyscale by pixel access, Question 4
             greyscale(img, grey_image);
-            imshow("Grey", grey_image);
-            //imwrite("Question4_rewrite_pixel.png", grey_image);
-   
+            imshow("Image", grey_image);
         }
         else if (key == 98) {   //press "b" to blur image by Guassian 5x5, Question 5
             blur_16bit.create(img.rows, img.cols, CV_16SC3);
@@ -68,8 +53,7 @@ int main(){
             blur5x5(img, blur_16bit);
             Mat blur_8bit;
             convertScaleAbs(blur_16bit, blur_8bit);
-            imshow("blur", blur_8bit);
-            //imwrite("Question5_blur.png", blur_8bit);
+            imshow("Image", blur_8bit);
         }
         else if (key == 120) {   //press "x" for sobel x, Question 6
             sobelx_16bit.create(img.rows, img.cols, CV_16SC3);
@@ -127,8 +111,8 @@ int main(){
 
             Mat cartoon_8bit;
             convertScaleAbs(cartoon_16bit, cartoon_8bit);
-            imshow("cartoon", cartoon_8bit);
-            //imwrite("cartoon.png", cartoon_8bit);
+            imshow("Image", cartoon_8bit);
+
         }
         else if (key == 111) {   //press "o", Contrast, Question 10
             Mat contrast_16bit(img.rows, img.cols, CV_16SC3);
@@ -140,7 +124,7 @@ int main(){
             Mat mirror_8bit;
             img.copyTo(mirror_8bit);
             mirror(img, mirror_8bit) ;
-            imshow("mirror", mirror_8bit);
+            imshow("Image", mirror_8bit);
         }
         else if (key == 50) {   //press "2", Extension 2, Meme
             string text;
@@ -148,7 +132,7 @@ int main(){
             getline(cin, text);
             cout << text << "\n";
             putText(img, text, Point(50, 150), FONT_HERSHEY_DUPLEX, 1.5, Scalar(255,192,203),2,false);
-            imshow("meme", img);
+            imshow("Image", img);
             imwrite("meme.png", img);
         }
         else if (key == 51) {   //press "3", Video recording
@@ -185,8 +169,17 @@ int main(){
             imshow("cny", dst);
         }
         
-        key = waitKey(5);
-        cap.read(img);  
+        else if (key == -1 or key == 32) {            //key == null or key == space
+            imshow("Image", img);
+        }
+        
+        newkey = waitKey(1);
+        
+        if (newkey != -1) {
+            key = newkey;
+        }
+        
+        cap.read(img);
         
     }
     return 0;
