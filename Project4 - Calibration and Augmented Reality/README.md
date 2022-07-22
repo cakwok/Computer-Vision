@@ -34,7 +34,7 @@ distortion matrix
 
 And write out the parameters into a xml file
 
- ![image](https://user-images.githubusercontent.com/21034990/180331456-ea225b58-383a-4b3a-8b16-b8e51bfbbeba.png)
+<img src = "https://user-images.githubusercontent.com/21034990/180331456-ea225b58-383a-4b3a-8b16-b8e51bfbbeba.png" width = 400>
 
 ### Calculate Current Position of the Camera
 Then used solvePNP to get the board's pose.
