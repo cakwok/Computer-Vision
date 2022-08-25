@@ -1,8 +1,14 @@
 Introduction
 ------------
+#### Homework1 - To the power of
+To compare computational time difference between full formular and C++ POW function.
+
 #### Project1 - Real Time Video Filtering
 
 Developed with C++, OpenCV, to build a live video system with special effect from scratch, by applying blur filters, gradient magnitude, quantization, cartoonization and live video recording.
+
+#### Project4 - Project4 - Calibration and Augmented Reality
+Developed with C++, OpenCV, to build an augmented reality application.
 
 #### Project6 - Generative and Adversarial Network
 
