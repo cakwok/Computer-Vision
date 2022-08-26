@@ -10,6 +10,9 @@ Developed with C++, OpenCV, to build a live video system with special effect fro
 #### Project4 - Project4 - Calibration and Augmented Reality
 Developed with C++, OpenCV, to build an augmented reality application.
 
+#### Project5 - CNN Recognition using Deep Networks
+Developed with Pytorch, the codes detect numbers and greek letters.
+
 #### Project6 - Generative and Adversarial Network
 
 Developed with Pytorch, the codes and to generate handwritten digit letters and color images, and study the differences and performances between general GAN, cGAN, DCGAN.
