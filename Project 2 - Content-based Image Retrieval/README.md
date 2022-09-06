@@ -12,7 +12,7 @@ Feature vector - 9x9 pixel value in the middle of an image
 
 Distance metrics - Sum of Squared Difference
 
-Target image -
+Target image to match -
 
 ![image](https://user-images.githubusercontent.com/21034990/188551396-645f8b01-bdaf-4b09-8c47-0e7566559d82.png)
 
@@ -41,7 +41,7 @@ Feature Vector - 3D RGB Histogram for the upper part + 3D RGB Histogram for the 
 
 Distance Metrics - Histogram intersection
 
-Target Image -
+Target Image to match -
 
 ![image](https://user-images.githubusercontent.com/21034990/188551806-9f72c94d-13cc-4ec3-8920-09945b1f5ce0.png)
 
@@ -61,7 +61,7 @@ Feature Vector 2 - Gradient magnitude histogram
 
 Distance Metrics - Weighted average L2, 0.5, 0.5
 
-Target Image -
+Target Image to match -
 
 ![image](https://user-images.githubusercontent.com/21034990/188551906-038b5a8c-37ed-42c6-a7ea-502bad088597.png)
 
@@ -78,14 +78,14 @@ Top matches, Scenario 2 -
 ### Custom Design 
 In this task, I have chosen 2 objects to match with -  a car, and a green bin.
 
-Target Image 1 - Car with 10 training data + 10 random images
+#### Target Image 1 - Car with 10 training data + 10 random images
 Feature Vector 1 - 0.5 * gradient magnitude histogram  + 0.5 RGB 3D histogram (both of the center 374 * 583 pixels of the target image)
 
 Feature Vector 2 - 0.5 * gradient magnitude histogram  + 0.5 RGB 3D histogram (both of the center 374 * 583 pixels of the random image)
 
 Distance Metrics - L1
 
-Target Image -
+Target Image to match  -
 
 ![image](https://user-images.githubusercontent.com/21034990/188552104-022a9454-aaa0-4e89-8619-bd9482c57840.png)
 
@@ -114,7 +114,7 @@ Feature Vector 2 - 0.5 * gradient magnitude histogram  + 0.5 RGB 3D histogram (w
 
 Distance Metrics - L1 distance
 
-Target Image -
+Target Image to match -
 
 ![image](https://user-images.githubusercontent.com/21034990/188552259-3772c22a-ac23-4b49-9090-6e5809acebcc.png)
 
