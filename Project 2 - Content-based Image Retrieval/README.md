@@ -1,13 +1,11 @@
 ## Description
-In the project, we would be retrieving feature and texture from images, and perform matching of a target image against 1106 random images.
+In the project, we would be retrieving feature and texture from images, and return top N matching of a target image from 1106 random images.
 
 Computers cannot see, therefore, spatial information, like the way how human vision recognise shapes, is not straight forward in computer's world.  Yet, an object's shape could be changing from time to time.
 
-Therefore, in this project, on top of spatial information, we are also using statistical models as feature vectors to find the top 10 matches of targeted images at our own choice. 
+Therefore, in this project, on top of spatial information, we are also using statistical models as feature vectors to find the top N matches at our own choice. 
 
-For the purpose of experimenting, I have applied sum of squared difference, L1 L2 distance, RGB histogram, HSV histogram, Chi-square, histogram intersection as feature vectors.  Depending on the target's nature, different distance metrics fits better under certain conditions, and finally be able to retrieve common features and texture from images. 
-
-I designed distance metrics and feature vectors by 10 training dataset, and finally applied the matching with 1106 random images sized 640 x 512 .  
+For the purpose of experimenting, I have applied sum of squared difference, L1 L2 distance, RGB histogram, HSV histogram, Chi-square, histogram intersection as feature vectors.  Depending on the nature of target images, different distance metrics fits better under certain conditions, and finally be able to retrieve common features and texture from images. 
 
 ### Baseline Matching
 Feature vector - 9x9 pixel value in the middle of an image 
