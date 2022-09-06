@@ -34,6 +34,9 @@ Target image -
 Top matches -
 
 ![image](https://user-images.githubusercontent.com/21034990/188551763-c65b912e-3e5d-465a-b261-16cdd8ea49be.png)
+![image](https://user-images.githubusercontent.com/21034990/188552611-14dd17f3-2d9b-49c6-8477-4f39a5c65580.png)
+![image](https://user-images.githubusercontent.com/21034990/188552626-8c4eeaa5-9bab-43ff-a359-86d9fec2dc94.png)
+
 
 ### Multi-Histogram Matching
 Feature Vector - 3D RGB Histogram for the upper part + 3D RGB Histogram for the lower part 
