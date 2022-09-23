@@ -26,15 +26,9 @@ At the left, the original image was transformed to Bicubic.  In the middle, the 
 
 The LR image looks obviously blurred and pixelated.  The SRGAN generated image, when comparing with Bicubic, look sharper with lines.
 
-Bicubic	LR	SRGAN
+Bicubic,	LR,	SRGAN
 
-<img src = "https://user-images.githubusercontent.com/21034990/192046164-c7840c76-00d7-4174-8bd0-fba6788afa8e.png" width = 300>
-<img src = "https://user-images.githubusercontent.com/21034990/192046171-613beb22-e107-4853-9879-17507bd4ed47.png" width = 300>
-<img src = "https://user-images.githubusercontent.com/21034990/192046187-9e556207-1d0d-4abf-b95c-3916afcf16a8.png" width = 300>
-
-
-
-
+<img src = "https://user-images.githubusercontent.com/21034990/192046164-c7840c76-00d7-4174-8bd0-fba6788afa8e.png" width = 300><img src = "https://user-images.githubusercontent.com/21034990/192046171-613beb22-e107-4853-9879-17507bd4ed47.png" width = 300><img src = "https://user-images.githubusercontent.com/21034990/192046187-9e556207-1d0d-4abf-b95c-3916afcf16a8.png" width = 300>
 
 Then I tried to generate a 2500 x 2500 upscaled version (about 3x scaling factor) from 854 x 862.  
 
@@ -45,3 +39,6 @@ To compare with the result, as shown at the left, the original image was upscale
 Since SRGAN emphasis on texture, it's expected that the generated image is sharper with lines and textures.  We can observe from the concrete structure for richer textures, and overall higher in contrast because of the same reason.
 
 Bicubic	SRGAN
+<img src = "https://user-images.githubusercontent.com/21034990/192046505-605256c2-8cf0-4f68-801d-aa5ab76975dd.png" width = 300>
+<img src = "https://wiki.khoury.northeastern.edu/download/attachments/128059247/image2022-9-17_13-36-31.png?version=1&modificationDate=1663446991625&api=v2" width = 300>
+
