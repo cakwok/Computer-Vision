@@ -1,5 +1,8 @@
 Introduction
 ------------
+#### CS7180 Project1 - SRGAN
+Implemented super resolution GAN framework of SRGAN with pytorch.
+
 #### Homework1 - To the power of
 To compare computational time difference between full formular and C++ POW function.
 
