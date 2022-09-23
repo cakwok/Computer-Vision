@@ -18,7 +18,7 @@ But my goal is to upscale an image with a realistic size instead of comparing it
 #### Results
 Original image,  854 x 862. 
 
-<img src = "https://user-images.githubusercontent.com/21034990/192045719-cbb6c7c6-5ad4-483f-9d38-dd037890f75f.png" width = 400>
+<img src = "https://user-images.githubusercontent.com/21034990/192045719-cbb6c7c6-5ad4-483f-9d38-dd037890f75f.png" width = 300>
 
 As a control test, after training and testing with the celebrities dataset, I ran the generator to produce a SRGAN with my own image.
 
@@ -26,7 +26,7 @@ At the left, the original image was transformed to Bicubic.  In the middle, the 
 
 The LR image looks obviously blurred and pixelated.  The SRGAN generated image, when comparing with Bicubic, look sharper with lines.
 
-Bicubic,	LR,	SRGAN
+Left: Bicubic,	Middle: LR,	Right: SRGAN
 
 <img src = "https://user-images.githubusercontent.com/21034990/192046164-c7840c76-00d7-4174-8bd0-fba6788afa8e.png" width = 300><img src = "https://user-images.githubusercontent.com/21034990/192046171-613beb22-e107-4853-9879-17507bd4ed47.png" width = 300><img src = "https://user-images.githubusercontent.com/21034990/192046187-9e556207-1d0d-4abf-b95c-3916afcf16a8.png" width = 300>
 
@@ -38,6 +38,6 @@ To compare with the result, as shown at the left, the original image was upscale
 
 Since SRGAN emphasis on texture, it's expected that the generated image is sharper with lines and textures.  We can observe from the concrete structure for richer textures, and overall higher in contrast because of the same reason.
 
-Bicubic	SRGAN<br>
+Left: Bicubic, Right:	SRGAN<br>
 <img src = "https://user-images.githubusercontent.com/21034990/192046505-605256c2-8cf0-4f68-801d-aa5ab76975dd.png" width = 300>
 <a href = "https://wiki.khoury.northeastern.edu/download/attachments/128059247/image2022-9-17_13-36-31.png?version=1&modificationDate=1663446991625&api=v2"><img src = "https://user-images.githubusercontent.com/21034990/192047809-0c0616aa-e29c-45cd-a110-f16e1a3f868f.png" width = 300></a>
