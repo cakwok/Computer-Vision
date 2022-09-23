@@ -38,7 +38,7 @@ To compare with the result, as shown at the left, the original image was upscale
 
 Since SRGAN emphasis on texture, it's expected that the generated image is sharper with lines and textures.  We can observe from the concrete structure for richer textures, and overall higher in contrast because of the same reason.
 
-Bicubic	SRGAN
+Bicubic	SRGAN<br>
 <img src = "https://user-images.githubusercontent.com/21034990/192046505-605256c2-8cf0-4f68-801d-aa5ab76975dd.png" width = 300>
-<img src = "https://wiki.khoury.northeastern.edu/download/attachments/128059247/image2022-9-17_13-36-31.png?version=1&modificationDate=1663446991625&api=v2" width = 300>
+<a href ="https://wiki.khoury.northeastern.edu/download/attachments/128059247/image2022-9-17_13-36-31.png?version=1&modificationDate=1663446991625&api=v2"<img src = "https://wiki.khoury.northeastern.edu/download/attachments/128059247/image2022-9-17_13-36-31.png?version=1&modificationDate=1663446991625&api=v2" width = 300></a>
 
