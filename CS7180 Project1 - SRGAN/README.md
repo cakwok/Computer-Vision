@@ -18,17 +18,20 @@ But my goal is to upscale an image with a realistic size instead of comparing it
 #### Results
 Original image,  854 x 862. 
 
-![image](https://user-images.githubusercontent.com/21034990/192045719-cbb6c7c6-5ad4-483f-9d38-dd037890f75f.png)
+<img src = "https://user-images.githubusercontent.com/21034990/192045719-cbb6c7c6-5ad4-483f-9d38-dd037890f75f.png" width = 400>
 
 As a control test, after training and testing with the celebrities dataset, I ran the generator to produce a SRGAN with my own image.
 
 At the left, the original image was transformed to Bicubic.  In the middle, the original image was downscaled to 1/4 of its size (LR).  At the right, result of the generated image by the LR version.
 
-(To see effect in actual size, download the image.)
-
 The LR image looks obviously blurred and pixelated.  The SRGAN generated image, when comparing with Bicubic, look sharper with lines.
 
 Bicubic	LR	SRGAN
+
+<img src = "https://user-images.githubusercontent.com/21034990/192046164-c7840c76-00d7-4174-8bd0-fba6788afa8e.png" width = 300>
+<img src = "https://user-images.githubusercontent.com/21034990/192046171-613beb22-e107-4853-9879-17507bd4ed47.png" width = 300>
+<img src = "https://user-images.githubusercontent.com/21034990/192046187-9e556207-1d0d-4abf-b95c-3916afcf16a8.png" width = 300>
+
 
 
 
