@@ -28,12 +28,12 @@ int main(int argc, const char * argv[]) {
     float RealWorldSquareDimension = 0.008f;      //0.8cm
     
     vector <Point2f> corners;                       //identified checkerboard pixel corners
-    vector <Vec3f> RealWorldCoordinates;            //real world checkerboard coordinates
-    
     vector<vector<Point2f> > cornerlist;
-    vector <Point2f> lastcorners(corners);
     
-    vector<vector<Point3f> > RealWorldCoordinates_list;
+    vector <Vec3f> RealWorldCoordinates;            //real world checkerboard coordinates
+    vector<vector<Point3f> > RealWorldCoordinates_list;    
+
+    vector <Point2f> lastcorners(corners);
     
     vector<Point3f> SquareRealWorldLength;
     
@@ -50,7 +50,13 @@ int main(int argc, const char * argv[]) {
     
     int key = waitKey(1);
     
-    //----------- Define real world coordinates
+    /* ----------- Define real world coordinates
+    Define real world coordinates by a 9 x 6 checkerboard.  
+    Origin at leftmost corner, then another each corner is one unit of RealWorldSquareDimension away.
+    In this case the checkerboard dimension is 0.8cm.
+    The third dimension is always 0 at initialization, since this is referencing the plane of a checkerboard.
+    */
+    
     for (int r = 0; r < 6; r++ ){
         for (int c = 0; c < 9; c++) {
             SquareRealWorldLength.push_back(Point3f(c * RealWorldSquareDimension, r * RealWorldSquareDimension, 0.0f));
@@ -64,6 +70,7 @@ int main(int argc, const char * argv[]) {
     readxml.open("intrinsics.xml", cv::FileStorage::READ);
     readxml["camera_matrix"] >> cameraMatrix;
     readxml["distortion_coefficients"] >> distCoeffs;
+    
     cout << "intrinsic matrix:\n"; cout << cameraMatrix << "\n";
     cout << "distortion coefficients: \n"; cout << distCoeffs << endl;
     //readxml.release();
@@ -113,19 +120,29 @@ int main(int argc, const char * argv[]) {
             break;
         }
         
-        found = findChessboardCorners(img, Size(9,6), corners, found);  //Question 1, find chess board corners
+        /* Question 1
+        Build a system for detecting a target and extracting target corners.
+        Draw the chessboard corners when it finds them
+        */
+        
+        # findChessboardCorners is an OpenCV library to find the positions of internal corners of the chessboard
+        found = findChessboardCorners(img, Size(9,6), corners, found);  
         
         if (found) {
             img.copyTo(img_g);
             img.copyTo(img_foundCorners);
             cvtColor(img, img_g, COLOR_BGR2GRAY);
             
-            //Question 1, store precise corrdinates by cornerSubPix
-            
+            /* Question 1, extract sub-pixel corrdinates using OpenCV cornerSubPix
+               @params  corner                  Stores extracted corners
+               @params  Size()                  Defines size of the neighborhood where it searches for corners.  Half side length of window, eg, (5*2+1) * (5*2+1)
+               @params  Size(-1,-1)             not rejecting any neighborhood size
+               @params  TermCriteria::EPS       difference between the current and previous function values less than threshold (0.001).
+               @params  TermCriteria::COUNT:    The number of iterations should not exceed the specified maximum (40).
+            */
             cornerSubPix(img_g, corners, Size(5,5), Size(-1, -1), TermCriteria(TermCriteria::EPS + TermCriteria::COUNT, 40,0.001));
             
             // Question 2, draw chess board corners
-            
             drawChessboardCorners(img_foundCorners, Size(9,6), corners, found);
             
             imshow("Image1", img_foundCorners);
