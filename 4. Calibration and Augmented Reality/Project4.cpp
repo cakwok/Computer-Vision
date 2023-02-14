@@ -39,7 +39,8 @@ int main(int argc, const char * argv[]) {
     
     bool found = false;
     
-    Mat cameraMatrix = (Mat_<float>(3,3) << 1.0f, 0.0f, img.cols/2, 0.0f,1.0f,img.rows/2, 0.0f,0.0f,1.0f);
+    Mat cameraMatrix = (Mat_<float>(3,3) << 1.0f, 0.0f, img.cols/2, 
+                        0.0f,1.0f,img.rows/2, 0.0f,0.0f,1.0f);
     Mat distCoeffs;
     
     double rms = 0.0f;                              //initialise root mean square, defines errors of camera calibration
