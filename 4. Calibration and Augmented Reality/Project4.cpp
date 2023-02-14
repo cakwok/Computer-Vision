@@ -374,24 +374,19 @@ int main(int argc, const char * argv[]) {
              */
         }
         
-        // ----- Question 3 calibrate camera and press w to write parameters into a file -------------------------
-        if (key == 99) {          //press "c", Calibrate camera
+        /* Question 3 calibrate camera and press w to write parameters into a file */
+        /* press "c", Calibrate camera */
+        if (key == 99) {          
             
             cameraMatrix = (Mat_<float>(3,3) << 1.0f, 0.0f, img.cols/2, 
                                                 0.0f, 1.0f, img.rows/2, 
                                                 0.0f, 0.0f, 1.0f);
             
-            for(int i=0; i<3; i++) {
-                for (int j=0; j<3; j++) {
-                    cout << cameraMatrix.at<float>(i,j) << " ";
-                }
-                cout << "\n";
-            }
-            
             distCoeffs =  Mat::zeros(8, 1, CV_64F);
             
-            float flag=CALIB_FIX_ASPECT_RATIO;
+            float flag = CALIB_FIX_ASPECT_RATIO;
             
+            //calibrateCamera function to generate the calibration and return RMS.  Returns rvecs, tvecs
             rms = calibrateCamera(RealWorldCoordinates_list, cornerlist, img.size(),  cameraMatrix, distCoeffs, rvecs, tvecs, flag);
                         
             cout << "Error: " << rms << "\n";
