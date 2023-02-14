@@ -1,9 +1,9 @@
 ### Description
-In this project, we are trying to recognise 2D objects by traditional computer vision approaches using morthological operations.  
+In this project, we are trying to recognise 2D objects, segment region from a scene, by implementing traditional computer vision approaches using morthological operations.  
 
-Unlike human vision, of which we can differentiate rotated / scaled / transitioned objects instantly, in computer's world, it relies on statistics models, such as Moments, aspect ratio, percentage of pixels, unsupervisioned machine learning, to determine if an object could be identified and if not, how shall the object be learnt.
+Unlike human vision, of which we can differentiate rotated / scaled / translational objects instantly, in computer's world, machine relies on statistical modelling of connected regions such as combinations of moments, aspect ratio, percentage of pixels, unsupervisioned machine learning, to estimate if an object could be identified and if not, how shall the object be learnt.
 
-We will start the work by collecting statistics from 10 known objects.  Then, we are able to compare a unknown object with the database, and determine the object by different distance matrix - Euclidean distance to the closest neighbour, and Euclidean distance by KNN.
+I started the work by collecting the above statistics from 10 known objects.  Then, we are able to compare a unknown object with this built database, and predict the unknown objects by comparing 1)the Euclidean distance to the closest neighbour, and 2)the Euclidean distance by K nearest neighbors (KNN).
 
 #### 1. Threshold input video
 By streaming live output from iphone as video input, with objects placed in a white background, foreground is determined by keeping pixel intensity if they are > 100.  Ambient lighting affected my result.  In day time, the same thresholding could be achieved by intensity > 180.  At this step, background is removed, and foreground is kept as white to create binary images.
