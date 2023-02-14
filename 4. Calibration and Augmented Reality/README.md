@@ -40,12 +40,12 @@ distortion matrix
  0.3822011478178676]
 ```
 
-And write out the parameters into a xml file
+Save the parameters into a xml file so we can just need to calibrate camera once for the system.<br>
+<img width="450" alt="image" src="https://user-images.githubusercontent.com/21034990/218815137-cd0d011d-3618-4948-8c6d-cfd771d90248.png"><br>
 
-<img src = "https://user-images.githubusercontent.com/21034990/180331456-ea225b58-383a-4b3a-8b16-b8e51bfbbeba.png" width = 400>
 
 ### Calculate Current Position of the Camera
-Then used solvePNP to get the board's pose.
+At this step, use cv::solvePNP to get the checkerboard's pose.
 
 ```
 rvecs: [0.3105807656948578;
@@ -58,23 +58,22 @@ tvecs: [0.1087392201451366;
 ```
 
 ### Project Outside Corners or 3D Axes
-Then project 3D real world coordinates onto 2D plane.  The 3D axes below shows the projection.
+Now using the pose estimation, use cv::projectPoints to project 3D real world coordinates onto the 2D image plane and verify this result by drawing lines along the projected axes.
 
- ![image](https://user-images.githubusercontent.com/21034990/180331597-097432b3-a1d0-4242-9399-3948f5f88770.png)
+![image](https://user-images.githubusercontent.com/21034990/218816759-71dd58df-95d4-4572-bd04-0e0767ac0100.png)
 
 ### Create a Virtual Object
-After real world corrdinates are successfully mapped, I can build a cube by real world dimensions.
+Now, we are able construct a shape in the scene accordingly.
 
- ![image](https://user-images.githubusercontent.com/21034990/180331637-d4a94e9f-6612-404f-8625-1855c4be8fdf.png)
- 
- ![image](https://user-images.githubusercontent.com/21034990/180331645-c2e36ae7-a31d-4dc2-8bcb-1bd0bd51e43b.png)
+![image](https://user-images.githubusercontent.com/21034990/218817304-80dde80a-1e47-4966-a474-aa462b2c8a9b.png)
+![image](https://user-images.githubusercontent.com/21034990/218817370-17227a45-412c-4e0e-9081-baa7dc314fb6.png)
   
-### Detect Robust Features
-Lastly, I have picked Harris corners to detect key points and showed the detection with the following patterns.
-Harris Corners can detect corners/shape with irregular patterns.  
+### Using Harris Corners to detect Robust Features
+Besides choosing to extract features by checkerboard, I also have worked on Harris corners to detect key points.  
 
- ![image](https://user-images.githubusercontent.com/21034990/180331690-08b25355-6837-4c2e-802f-97f726e35006.png)
- ![image](https://user-images.githubusercontent.com/21034990/180331703-d097d9c9-85e9-4185-b062-d68b052f39af.png)
+![image](https://user-images.githubusercontent.com/21034990/218817743-33c80e92-c973-4e9c-8517-82ed16cb553d.png)
+<img src="https://user-images.githubusercontent.com/21034990/218817795-06017179-8e29-4f0c-8112-25f192b85c35.png" width = "250"><br>
+
    
 ### Extension 1 and 2 - ArUco Markers + Insert virtual picture 
 What did I plant during Spring break?  Place my sprout under the camera, then it grew up in a second into a green pepper!
