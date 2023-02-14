@@ -42,9 +42,9 @@ distortion matrix
  0.3822011478178676]
 ```
 
-Save the parameters into a xml file so we can just need to calibrate camera once for the system.<br>
-<img width="450" alt="image" src="https://user-images.githubusercontent.com/21034990/218815137-cd0d011d-3618-4948-8c6d-cfd771d90248.png"><br>
+Save the parameters into a xml file so we can just need to calibrate camera once for the system.
 
+<img width="450" alt="image" src="https://user-images.githubusercontent.com/21034990/218815137-cd0d011d-3618-4948-8c6d-cfd771d90248.png">
 
 #### Calculate Current Position of the Camera
 At this step, use cv::solvePNP to get the checkerboard's pose.
@@ -83,7 +83,7 @@ This task has to use cv::findHomography to map the key points between ArUCO mark
  
 <img width="800" alt="image" src="https://user-images.githubusercontent.com/21034990/218818953-65a880df-6564-455a-b1e9-0ddf870fb330.png">
  
-### ArUCO Markers : Detection of multiple targets 
+#### ArUCO Markers : Detection of multiple targets 
 As a future work, ArUCO Markers could identify multiple targets for different effects of virtual objects.
 ![image](https://user-images.githubusercontent.com/21034990/218821897-a5f5cad5-1574-45ea-a672-156290c84f5a.png)
 
