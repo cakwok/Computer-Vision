@@ -146,8 +146,8 @@ int main(int argc, const char * argv[]) {
             drawChessboardCorners(img_foundCorners, Size(9,6), corners, found);
             
             /* print out how many corners it finds, along with the coordinates of the first corner */
-            cout << "corner size: " << corners.size() << "\n";       //Question 2, cout corners identified
-            cout << corners[0].x << " " <<  corners[0].y << "\n";    //Question 2, cout first corner
+            cout << "Corner size: " << corners.size() << "\n";       //Question 2, cout corners identified
+            cout << "First corner: " << corners[0].x << " " <<  corners[0].y << "\n";    //Question 2, cout first corner
             
             imshow("Image1", img_foundCorners);
             
