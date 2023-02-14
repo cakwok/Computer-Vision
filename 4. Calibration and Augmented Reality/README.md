@@ -1,13 +1,17 @@
 ## Project 4: Calibration and Augmented Reality
 
-To augment reality, this project is to correlate extrinsic and intrinsic camera parameters, so a real world coordinates could be transformed into pixel coordinates.  Now, having a coordinates of projected 3D objects onto 2D scene, a virtual object could then be built and is able to synchronise movement of target in real world.
+To augment reality, this project calibrated extrinsic and intrinsic camera parameters, so a real world coordinates could be rigidlly transformed into pixel coordinates.  Now, having a coordinates of projected 3D objects onto 2D scene, a virtual object could then be created and is able to synchronise movement of target in a scene.
 
 ### Detect and Extract Chessboard Corners
-Number of corners found by findChessboardCorners for a 9 x 6 checkerboard, then found precise coordinates with cornersubpix.  Below shows the numbers of corners found and also the first corner:
+The first task is to build a system for detecting a target and extracting target corners by OpenCV findChessboardCorners. A 9 x 6 checkerboard is used in this case, then used the OpenCV cornerSubPix in order to find a more precise coordinates up to subpixel.  
+
+Below shows the numbers of corners found by findChessboardCorners and cornerSubPix, and also recorded the found first corner:
+
+![image](https://user-images.githubusercontent.com/21034990/218807563-0c66802c-ecef-43fe-840a-2b5942228a77.png)
 
 ```
-corner size: 54
-558.579 387.984
+Corner size: 54
+First corner: 558.579 387.984
 ```
 ### Select Calibration Images
 Created a list for real world coordinates of 54 corners with real world dimension 0.008m apart.  Checked if number of points matches, as well as sequence of points if both lists are aligned. 
