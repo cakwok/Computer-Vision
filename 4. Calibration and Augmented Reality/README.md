@@ -1,6 +1,6 @@
 ## Project 4: Calibration and Augmented Reality
 
-To augment reality, this project calibrated extrinsic and intrinsic camera parameters, so a real world coordinates could be rigidlly transformed into pixel coordinates.  Now, having a coordinates of projected 3D objects onto 2D scene, a virtual object could then be created and is able to synchronise movement of target in a scene.
+To augment reality, this project calibrated extrinsic and intrinsic camera parameters, so a real world coordinates could be rigidlly transformed into pixel coordinates.  Now, having a coordinates of projected 3D objects onto 2D scene, a virtual object could then be created and synchronised with the movement of a target in a scene.
 
 ### Detect and Extract Chessboard Corners
 The first task is to build a system for detecting a target and extracting target corners by OpenCV findChessboardCorners. A 9 x 6 checkerboard is used in this case, then used the OpenCV cornerSubPix in order to find a more precise coordinates up to subpixel.  
@@ -14,12 +14,16 @@ Corner size: 54
 First corner: 558.579 387.984
 ```
 ### Select Calibration Images
-Created a list for real world coordinates of 54 corners with real world dimension 0.008m apart.  Checked if number of points matches, as well as sequence of points if both lists are aligned. 
+In order to calibrate cameras from different view points, I have taken around 20 images with different translations, scales, and rotation of the checker board.  Then the 54 corners detected at each images, were saved in a pair with real world Euclidean coordinates.  Each corner in the checkerboard is 0.008m apart.
 
-Each time when a user presses "s", new set of real world and findChessboardCorners would be appended and the current video frame would be saved.
+At this point, it's important to check if number of corners and Euclidean coordinates matches, as well as the sequence are aligned, because this is the step to feed in information to camera calibration to transform a 3D coordinates into a pixel.
  
 ### Calibrate the Camera
-After saving 20 images, I pressed "c" to calibrate the camera.  
+After saving 20 pairs of coordinates, I used cv::calibrateCamera to generate the calibration, and observed the RMS returned by the function.  Points to check at this step -
+- The RMS is expected to fall between 0.1-1 pixel
+- u0, v0 values should be close to image center (ie, image width/2, image height/2)
+- Focal length at x and y should be close to each other
+
 ```
 Error: 0.295002
 
