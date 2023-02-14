@@ -27,7 +27,9 @@ By using the cv::connectedComponentsWithStats function with 8 way connectivity, 
 ![image](https://user-images.githubusercontent.com/21034990/218848269-d69aa825-914e-4a8b-a668-38b2960d3c2e.png)
 
 #### 4.  Compute features for each major region
-After a region is identified, now we can compute features of the object. Raw moments m00, central moment nu02, nu20, nu11, aspect ratio, axis of least central moment were derived.  These features were chosen, because they are translational, scaling, rotational invariant.
+After a region is identified, now we can compute and extract features from the region. 
+
+Features extracted in this work were raw moments m00, central moment nu02, nu20, nu11, aspect ratio, axis of least central moment.  These features were chosen because they are translational, scaling, rotational invariant in nature.
 
 ![image](https://user-images.githubusercontent.com/21034990/218848329-c4f7ad3d-d75a-4351-b8af-d547d18c60b3.png)
 ![image](https://user-images.githubusercontent.com/21034990/218848459-b8b2a69d-a5b4-4d7b-9303-2623bbb08c0e.png)
