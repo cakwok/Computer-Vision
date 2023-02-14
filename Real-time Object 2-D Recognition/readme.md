@@ -3,22 +3,26 @@ In this project, we are trying to recognise 2D objects, segment region from a sc
 
 Unlike human vision, of which we can differentiate rotated / scaled / translational objects instantly, in computer's world, machine relies on statistical modelling of connected regions such as combinations of moments, aspect ratio, percentage of pixels, unsupervisioned machine learning, to estimate if an object could be identified and if not, how shall the object be learnt.
 
-I started the work by collecting the above statistics from 10 known objects.  Then, we are able to compare a unknown object with this built database, and predict the unknown objects by comparing 1)the Euclidean distance to the closest neighbour, and 2)the Euclidean distance by K nearest neighbors (KNN).
+I started the work by collecting the above statistics from 10 known objects.  Then, we are able to compare a unknown object with this built database, and predict the unknown objects by looking up the shortest 1)Euclidean distance to the closest neighbour, 2)Euclidean distance by K nearest neighbors (KNN).
 
-#### 1. Threshold input video
-By streaming live output from iphone as video input, with objects placed in a white background, foreground is determined by keeping pixel intensity if they are > 100.  Ambient lighting affected my result.  In day time, the same thresholding could be achieved by intensity > 180.  At this step, background is removed, and foreground is kept as white to create binary images.
+#### 1. Thresholding an image with an input video, creating binary images
+By streaming live video output from iphone as image source input, with objects placed in a white background, the foreground pixels or regions is extracted by matching pixel intensity values if they are > 100.  
+
+Ambient lighting affected the results.  In day time, the region extraction could be achieved by thresholding intensity with values > 180.  
+
+![image](https://user-images.githubusercontent.com/21034990/218853198-49974bcb-b7c7-422a-a7e6-1e8f9fe1509c.png)
+
+At this step, background information is removed, and detected foreground regions are kept in white pixels, resulting images remain in 2 colors, as known as binary images.
 
 ![image](https://user-images.githubusercontent.com/21034990/218847967-65621304-86e2-46de-b57a-306ef83b4d0e.png)
 ![image](https://user-images.githubusercontent.com/21034990/218848004-62eac2ec-0887-40ce-a326-0581a2d95807.png)
 
-#### 2.  Clean up binary images
-Then by glowing, pepper noise are removed.  It helps to reduce identified regionID by pepper noise, so results less false positive connected regions.<br>
+#### 2.  Clean up binary images with morphological filtering
+Then I pre-processed the image by glowing pixel by pixel, so white pixels with neighbors next to dark pixels are changed to dark, and this process is commonly used to remove pepper noise in images.  This step helps to reduce number of false positive of connected regions(regionID).<br>
 ![image](https://user-images.githubusercontent.com/21034990/218848069-7fd144f2-a5a0-4f47-9c79-65bfc37455bd.png)
 
 #### 3.  Segment the image into regions
-By OpenCV connectedComponentsWithStats with 8 way connectivity, the function uses connected segment algorithms to identify an object, namely regions, in computer vision.
-
-An identified region is given with a region ID, centriods, area.  The capture below shows the largest regionaID identified and colored correspondingly.  
+By using the cv::connectedComponentsWithStats function with 8 way connectivity, of which the function implements connected segment algorithms, connected regions are identified with a regionID, corresponding centriods, area of the region, and a color index to visualize the regions.  Since false positives may not be completely eliminated, this step takes the top 10 largest regionID from the output.
 
 ![image](https://user-images.githubusercontent.com/21034990/218848269-d69aa825-914e-4a8b-a668-38b2960d3c2e.png)
 
