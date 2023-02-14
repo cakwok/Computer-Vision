@@ -188,22 +188,17 @@ int main(int argc, const char * argv[]) {
                 imwrite(checkerboardFile, img_foundCorners);
             }
             
-            //--- Question 4 solvepnp, calculate board's pose (rotation and translation)-------
-            /*
-            cout << "----- solvepnp ----- \n";
-            cout << "camera matrix: \n";
-            cout << cameraMatrix << "\n";
+            //--- Question 4 Calculate Current Position of the Camera, grabs the locations of the corners, and then uses solvePNP to get the board's pose (rotation and translation). ------
+            // solvePnP returns rotation, translation vectors that transform a 3D point to the camera coordinate frame
             
-            cout << "distcoeffs \n";
-            cout << distCoeffs << "\n";
-            */
             solvePnP(SquareRealWorldLength, corners, cameraMatrix, distCoeffs, rvecs, tvecs);
             cout << "rvecs: \n" << rvecs << "\n";
             cout << "tvecs: \n" << tvecs << "\n";
             
-            //---- Question 5 projectPoints and draw axis ----
+            //---- Question 5 project Points and draw axis ----
+            //use the projectPoints function to project the 3D points corresponding to the four outside corners of the chessboard onto the image plane in real time as the chessboard or camera moves around
             vector<Point2f> projected2dPoints;
-            vector <Point3f> testing3dPoints;
+            vector<Point3f> testing3dPoints;
             testing3dPoints.push_back(Point3f(0, 0, 0));
             testing3dPoints.push_back(Point3f(0.016, 0, 0));
             testing3dPoints.push_back(Point3f(0, 0.016, 0));
