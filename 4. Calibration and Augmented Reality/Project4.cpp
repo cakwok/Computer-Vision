@@ -125,7 +125,7 @@ int main(int argc, const char * argv[]) {
         Draw the chessboard corners when it finds them
         */
         
-        # findChessboardCorners is an OpenCV library to find the positions of internal corners of the chessboard
+        # findChessboardCorners is an OpenCV library to find the positions of internal corners of the chessboard.  Return True/False
         found = findChessboardCorners(img, Size(9,6), corners, found);  
         
         if (found) {
@@ -142,27 +142,37 @@ int main(int argc, const char * argv[]) {
             */
             cornerSubPix(img_g, corners, Size(5,5), Size(-1, -1), TermCriteria(TermCriteria::EPS + TermCriteria::COUNT, 40,0.001));
             
-            // Question 2, draw chess board corners
+            /* draw chess board corners */
             drawChessboardCorners(img_foundCorners, Size(9,6), corners, found);
             
-            imshow("Image1", img_foundCorners);
-            
+            /* print out how many corners it finds, along with the coordinates of the first corner */
             cout << "corner size: " << corners.size() << "\n";       //Question 2, cout corners identified
             cout << corners[0].x << " " <<  corners[0].y << "\n";    //Question 2, cout first corner
             
-            if (key == 115) {           //press "s" to save real world and virtual world corner pairs   // Question 2
-                
+            imshow("Image1", img_foundCorners);
+            
+            /* Question 2, let user specifies a particular image should be used for the calibration  
+               save the corner locations and the corresponding 3D world points.
+            */
+            
+            //if user types 's', store the vector of corners found by findChessbordCorners into a corner_list.
+            if (key == 115) {          
                 cout << "corners list \n";
                 for (int i = 0; i < corners.size(); i++ ) {
                     cout << corners[i].x << " " <<  corners[i].y << "\n";
                 }
-                
+         
                 cout << "\n";
                 
+                /* every time when user strokes "s", a list set of corners is appended to a list wrapping corners of each press of "s" 
+                number of corners in the list has to be equal with real world coordinates */
                 cornerlist.push_back(corners);
-                
+   
+                /*  create a point_set that specifies the 3D position of the corners in world coordinates 
+                number of corners in the list has to be equal with corner list*/
                 RealWorldCoordinates_list.push_back(SquareRealWorldLength);
                 
+                /*
                 int i = 0; int j=0;
                 cout << "realworldcoordinates \n";
                 for (int i = 0; i < RealWorldCoordinates_list.size(); i++ ) {
@@ -171,8 +181,10 @@ int main(int argc, const char * argv[]) {
                     }
                     cout << "i " << i << " j " << j << "\n";
                 }
+                */
             
-                string checkerboardFile = "checkerboard_" + to_string(time(nullptr)) + ".png";  //Question 2, save images
+                /* save images with identified corners */
+                string checkerboardFile = "checkerboard_" + to_string(time(nullptr)) + ".png";
                 imwrite(checkerboardFile, img_foundCorners);
             }
             
@@ -363,8 +375,11 @@ int main(int argc, const char * argv[]) {
         }
         
         // ----- Question 3 calibrate camera and press w to write parameters into a file -------------------------
-        if (key == 99) {          //press "c", Question 3, Calibrate camera
-            cameraMatrix = (Mat_<float>(3,3) << 1.0f, 0.0f, img.cols/2, 0.0f,1.0f,img.rows/2, 0.0f,0.0f,1.0f);
+        if (key == 99) {          //press "c", Calibrate camera
+            
+            cameraMatrix = (Mat_<float>(3,3) << 1.0f, 0.0f, img.cols/2, 
+                                                0.0f, 1.0f, img.rows/2, 
+                                                0.0f, 0.0f, 1.0f);
             
             for(int i=0; i<3; i++) {
                 for (int j=0; j<3; j++) {
