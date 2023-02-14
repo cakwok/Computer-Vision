@@ -35,63 +35,26 @@ Features extracted in this work were raw moments m00, central moment nu02, nu20,
 ![image](https://user-images.githubusercontent.com/21034990/218848459-b8b2a69d-a5b4-4d7b-9303-2623bbb08c0e.png)
 
 #### 5.  Collect training data
-By pressing "t" at the live video stream, user could attach a label onto an object and save into a csv based database.  Details would be shown at video link provided.
+The features of the above would have to be collected and stored in a database.  At my system, by pressing "t" at the live video stream, a user could attach a label onto an object and save the trainings into a csv based database.  
 
+#### 6.  Classify new objects
+Now, when an unknown object appears in the video input, the system automatically collects the mentioned features(Moments, aspect ratio, etc).   These resulted feature vectors are then computed with the scaled Euclidean distance, and look up for the closest matching feature vector in the object database so as to identify the new object.
 
-#### 6.  Classify new images
-When an object appear in the video stream, the mentioned properties (Moments, aspect ratio, etc, ) would be computed a Euclidean distance against known objects in the database.  As shown in the capture below, the 3 new objects were computed, and attached a label with the closest neighbour with shortest Euclidean distance.
+As shown in the capture below, I have provided another 3 new objects to the system, and the system is able to recognise the objects correctly, by comparing the features with the closest neighbour in the database..
 
 ![image](https://user-images.githubusercontent.com/21034990/218848507-823ef8e4-faac-432e-82dc-7b7623f75d26.png)
 
 #### 7.  Implement a different classifier
-In order to improve performance of closet neighbour, at this step, KNN with closet 2 nearest neighbours was implemented. 
-
-I observed not big difference when compared the result with the nearest neighbor, probably due to database and neighbor size is not large enough.
+To enhance prediction performance, at this step, instead of using Euclidean distance computation to look up for the closest neighbor, KNN with closet 2 nearest neighbours was implemented. Ideally it should be implemented with at least 3 neighbors.
 
 ![image](https://user-images.githubusercontent.com/21034990/218848608-ed2a3152-8ebf-410a-8747-300c62d35f5d.png)
 
 #### 8.  Evaluate the performance of your system
-Below confusion matrix shows the true label verus classified label by closet neighbour.
+So we understand the object recognition is estimated by distance matrix.  In order to know about the accuracy and performance of the system, I have built a confusion matrix to compare the count of true label verus predicted labels by nearest neighbor.
 
 ![image](https://user-images.githubusercontent.com/21034990/218848790-a93b5494-d06a-44dd-925b-18bff9e88f25.png)
 
-#### 9.  Capture a demo of your system working
-https://youtu.be/neEPlZ1NsUE
+#### 9. Objects from Internet
+To understand if the system has been generalizing well, I have also downloaded online images to compare results.  In my system, if a user doesn't satisfy with the predicted label, the user can press "e" to attach a new label to create a new object in the database.
 
-https://youtu.be/KRhL2Q_Ddkk
-
-Extension
-1.  OpenCV Adaptive thresholding.
-During the project set up, thresholding by a constant has imposed me challenges.  The first take of binary image was nice at day time, but at night time, I have to scale down threshold from 180 to 100.  Therefore, I was trying to study if there is a OpenCV function for thresholding, it would be useful even during day time, as shadow casted sometimes affect results.
-
-However, having tried the adaptive threshold OpenCV function, it doesn't work like what I was looking for.  It averages all pixels as the output.
-
-
-
-2.  Additional objects
-
-I have added the below 5 objects into database, and recorded accuracy of the prediction.  Owing to limited objects i have on hand, the first 10 known objects in database are all real objects and took by live video.  The rest are downloaded from Internet.
-
-
-
-left : object in database.  right : unknown object with predicted label.
-
-
-
-
-
-
-
-
-
-
-
-3.  Better GUI
-
-After obtaining an unknown object, user can press "e", look at the image, see the first time prediction, and attach a label.
-
-
-
-
-
-Reflection
+![image](https://user-images.githubusercontent.com/21034990/218866199-13c629c3-d5ad-49b5-ba2e-4edd34539c0d.png)
