@@ -5,9 +5,9 @@
 //  Created by Casca on 9/3/2022.
 //
 #include <iostream>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
+#include <opencv2/imgcodecs.hpp>          //OpenCV library for reading/writing, imread, imwrite
+#include <opencv2/highgui.hpp>            //OpenCV library for user interfaces, display image, waitKey
+#include <opencv2/imgproc.hpp>            //OpenCV library for processing images, threshold, drawing
 #include <opencv2/calib3d.hpp>            //OpenCV library for camera calibration
 #include <opencv2/aruco.hpp>              //OpenCV library for ArUco Checker
 #include <filesystem>                     // For listing .jpg filenames codes
@@ -40,7 +40,8 @@ int main(int argc, const char * argv[]) {
     bool found = false;
     
     Mat cameraMatrix = (Mat_<float>(3,3) << 1.0f, 0.0f, img.cols/2, 
-                        0.0f,1.0f,img.rows/2, 0.0f,0.0f,1.0f);
+                                            0.0f, 1.0f, img.rows/2, 
+                                            0.0f, 0.0f, 1.0f);
     Mat distCoeffs;
     
     double rms = 0.0f;                              //initialise root mean square, defines errors of camera calibration
