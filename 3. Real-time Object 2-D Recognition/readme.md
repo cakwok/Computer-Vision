@@ -1,7 +1,7 @@
 ### Description
-In this project, we are trying to recognise 2D objects, segment region from a scene, by implementing traditional computer vision approaches using morthological operations.  
+In this project, I have implemented traditional computer vision approaches starting with morthological operations towards solving 2D objects recognition and scene segmentation problem.  
 
-Unlike human vision, of which we can differentiate rotated / scaled / translational objects instantly, in computer's world, machine relies on statistical modelling of connected regions such as combinations of moments, aspect ratio, percentage of pixels, unsupervisioned machine learning, to estimate if an object could be identified and if not, how shall the object be learnt.
+Unlike human vision, of which we can differentiate rotated / scaled / translational objects instantly, in computer's world, machine relies on statistical modelling of connected regions such as combinations of moments, aspect ratio, percentage of pixels, unsupervisioned machine learning, to estimate if an object could be identified.  If not, how shall the object be learnt.
 
 I started the work by collecting the above statistics from 10 known objects.  Then, we are able to compare a unknown object with this built database, and predict the unknown objects by looking up the shortest 1)Euclidean distance to the closest neighbour, 2)Euclidean distance by K nearest neighbors (KNN).
 
