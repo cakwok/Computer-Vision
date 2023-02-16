@@ -84,6 +84,6 @@ This task has to use cv::findHomography to map the key points between ArUCO mark
 <img width="800" alt="image" src="https://user-images.githubusercontent.com/21034990/218818953-65a880df-6564-455a-b1e9-0ddf870fb330.png">
  
 #### ArUCO Markers : Detection of multiple targets 
-As a future work, ArUCO Markers could used to identify multiple targets for different effects of virtual objects.
+As a future work, ArUCO Markers could be used to identify multiple targets for different effects of virtual objects.
 ![image](https://user-images.githubusercontent.com/21034990/218821897-a5f5cad5-1574-45ea-a672-156290c84f5a.png)
 
