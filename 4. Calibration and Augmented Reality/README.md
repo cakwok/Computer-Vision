@@ -1,6 +1,6 @@
 ## Project 4: Calibration and Augmented Reality
 
-To augment reality, this project calibrated extrinsic and intrinsic camera parameters and extract key points in a scene, so a real world coordinates could be rigidlly transformed into pixel coordinates.  Now, having a coordinates of projected 3D objects onto a 2D scene, a virtual object could then be created and synchronised with the movement of a target in a scene.
+To augment reality, this project calibrated extrinsic and intrinsic camera parameters and extract key points in a scene, so a real world coordinates could be rigidlly transformed into pixel coordinates aka point clouds.  Now, having a coordinates of projected 3D objects onto a 2D scene, a virtual object could then be created and synchronised with the movement of a target in a scene.
 
 In this project, I have worked on detecting and extracting key points using chessboard corners, Harris corners and ArUCO markers.
 
