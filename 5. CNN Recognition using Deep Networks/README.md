@@ -1,13 +1,13 @@
-# Recognition Using CNN
+# Character Recognition Using CNN
 In this project, I have built, trained, analyzed, modified a Convolutional Neural Network CNN to learn recognizing numbers and greek letters.
 
-By feeding MNIST Digits dataset for training, the model is then able to recognise my own arabic numbers and greek letter handwrittings.
+The end goal of the system is to recognise handwrittings, with system tunning to achieve 90% accuracy.
 
-The above process is good enough to see if the model is working.  However, the model could perform better accuracy with tunning.  In the second part of the project, I would be showing performance analysis of the model, and the result of achieving better accuracy after tunning.
+### Method
 
-### Results:
+To prepare a real life testing dataset, as shown at the below capture at the left,  shows my handwrittings in raw, and pre-processed into binary images to match the format of the MNIST dataset with, and at the right upper corner. 
 
-The left hand side of the below capture shows my handwrittings raw.  At right upper corner, we can see the from the value of "prediction", which shows what machine has learnt and able to tell the digits of my handwritting.  We can see generally, it learnt well before tunning, 6 out of 10 writtings were classified correctly, so 60% accuracy.  Having said that, for those numbers which are misclassified, they are still a close prediction with alike features.
+At right upper corner, we can see the from the value of "prediction", which shows what machine has learnt and able to tell the digits of my handwritting.  We can see generally, it learnt well before tunning, 6 out of 10 writtings were classified correctly, so 60% accuracy.  Having said that, for those numbers which are misclassified, they are still a close prediction with alike features.
 
 ![image](https://user-images.githubusercontent.com/21034990/176381947-5a45a6b7-511a-4099-8e65-5be10de0ca08.png)
 
