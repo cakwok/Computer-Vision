@@ -18,7 +18,7 @@ At this step, background information is removed, and detected foreground regions
 ![image](https://user-images.githubusercontent.com/21034990/218848004-62eac2ec-0887-40ce-a326-0581a2d95807.png)
 
 #### 2.  Clean up binary images with morphological filtering
-Then I pre-processed the image by glowing pixel by pixel, so white pixels with neighbors next to dark pixels are changed to dark, and this process is commonly used to remove pepper noise in images.  This step helps to reduce number of false positive of connected regions(regionID).<br>
+Then I pre-processed the image by shrinking pixel by pixel, so white pixels with neighbors next to dark pixels are changed to dark, and this process is commonly used to remove pepper noise in images.  This step helps to reduce number of false positive of connected regions(regionID).<br>
 ![image](https://user-images.githubusercontent.com/21034990/218848069-7fd144f2-a5a0-4f47-9c79-65bfc37455bd.png)
 
 #### 3.  Segment the image into regions
