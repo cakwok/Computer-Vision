@@ -1,24 +1,26 @@
-# CS5330-Project-5-Recognition-using-Deep-Networks
-In this project, I trained my machine to learn what are numbers and greek letters by convolutional neural network(CNN).  
+# Recognition Using CNN
+In this project, I have built, trained, analyzed, modified a Convolutional Neural Network CNN to learn recognizing numbers and greek letters.
 
-By feeding MNIST Digits dataset and let the machine learn what are digits and letters, the model is then able to recognise my own arabic numbers and greek letter handwrittings after this training.<br><br>
-The above process is good to see if the model is working.  However, the model could perform much better accuracy with tunning.  Therefore, in the second part of the project, I would be showing performance analysis of the model, and result of much better accuracy after tunning.
+By feeding MNIST Digits dataset for training, the model is then able to recognise my own arabic numbers and greek letter handwrittings.
+
+The above process is good enough to see if the model is working.  However, the model could perform better accuracy with tunning.  In the second part of the project, I would be showing performance analysis of the model, and the result of achieving better accuracy after tunning.
+
+### Results:
 
 The left hand side of the below capture shows my handwrittings raw.  At right upper corner, we can see the from the value of "prediction", which shows what machine has learnt and able to tell the digits of my handwritting.  We can see generally, it learnt well before tunning, 6 out of 10 writtings were classified correctly, so 60% accuracy.  Having said that, for those numbers which are misclassified, they are still a close prediction with alike features.
+
 ![image](https://user-images.githubusercontent.com/21034990/176381947-5a45a6b7-511a-4099-8e65-5be10de0ca08.png)
 
-Main codes 
------------
+### Main codes 
 Q1a - 1e    Q1a - CnnCoreStructure.py<br>
-Q1f - 1g    Q1f - Read trainned MNIST network3.py<br>
+Q1f - 1g    Q1f - Read trained MNIST network3.py<br>
 Q2          Q2a - Examine network.py<br>
 Q3          Q3 Create a digit embedding.py<br>
 Q4i         Q4i - Design your own experiment Epoch.py<br>
 Q4ii        Q4ii - Design your own experiment batch size.py<br>
 Q4iii       Q4iii - Design your own experiment batch normalization.py<br>
 
-Detail report
--------------
+### Detail report
 1. We have to provide data for machine to learn.  Below capture shows the MNIST digit dataset fed as training data into the neural network
 
 <img src = "https://user-images.githubusercontent.com/21034990/177019922-2f674cf3-daf6-44cd-9e23-1e7fea3aa37c.png" width = 400>
