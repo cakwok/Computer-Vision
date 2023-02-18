@@ -5,7 +5,7 @@ The end goal of the system is to recognise handwrittings, with system tunning to
 
 ### Method
 
-To prepare a real life testing dataset, as shown at the below capture at the left,  shows my handwrittings in raw, and pre-processed into binary images to match the format of the MNIST dataset with, and at the right upper corner. 
+To prepare a real life testing dataset, as shown at the below capture at the left, my own set of handwrittings was pre-processed into binary images.  This is to match the format of the MNIST dataset. 
 
 At right upper corner, we can see the from the value of "prediction", which shows what machine has learnt and able to tell the digits of my handwritting.  We can see generally, it learnt well before tunning, 6 out of 10 writtings were classified correctly, so 60% accuracy.  Having said that, for those numbers which are misclassified, they are still a close prediction with alike features.
 
