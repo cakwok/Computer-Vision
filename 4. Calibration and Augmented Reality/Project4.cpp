@@ -5,9 +5,9 @@
 //  Created by Casca on 9/3/2022.
 //
 #include <iostream>
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
+#include <opencv2/imgcodecs.hpp>          //OpenCV library for reading/writing, imread, imwrite
+#include <opencv2/highgui.hpp>            //OpenCV library for user interfaces, display image, waitKey
+#include <opencv2/imgproc.hpp>            //OpenCV library for processing images, threshold, drawing
 #include <opencv2/calib3d.hpp>            //OpenCV library for camera calibration
 #include <opencv2/aruco.hpp>              //OpenCV library for ArUco Checker
 #include <filesystem>                     // For listing .jpg filenames codes
@@ -28,18 +28,20 @@ int main(int argc, const char * argv[]) {
     float RealWorldSquareDimension = 0.008f;      //0.8cm
     
     vector <Point2f> corners;                       //identified checkerboard pixel corners
-    vector <Vec3f> RealWorldCoordinates;            //real world checkerboard coordinates
-    
     vector<vector<Point2f> > cornerlist;
-    vector <Point2f> lastcorners(corners);
     
-    vector<vector<Point3f> > RealWorldCoordinates_list;
+    vector <Vec3f> RealWorldCoordinates;            //real world checkerboard coordinates
+    vector<vector<Point3f> > RealWorldCoordinates_list;    
+
+    vector <Point2f> lastcorners(corners);
     
     vector<Point3f> SquareRealWorldLength;
     
     bool found = false;
     
-    Mat cameraMatrix = (Mat_<float>(3,3) << 1.0f, 0.0f, img.cols/2, 0.0f,1.0f,img.rows/2, 0.0f,0.0f,1.0f);
+    Mat cameraMatrix = (Mat_<float>(3,3) << 1.0f, 0.0f, img.cols/2, 
+                                            0.0f, 1.0f, img.rows/2, 
+                                            0.0f, 0.0f, 1.0f);
     Mat distCoeffs;
     
     double rms = 0.0f;                              //initialise root mean square, defines errors of camera calibration
@@ -48,7 +50,13 @@ int main(int argc, const char * argv[]) {
     
     int key = waitKey(1);
     
-    //----------- Define real world coordinates
+    /* ----------- Define real world coordinates
+    Define real world coordinates by a 9 x 6 checkerboard.  
+    Origin at leftmost corner, then another each corner is one unit of RealWorldSquareDimension away.
+    In this case the checkerboard dimension is 0.8cm.
+    The third dimension is always 0 at initialization, since this is referencing the plane of a checkerboard.
+    */
+    
     for (int r = 0; r < 6; r++ ){
         for (int c = 0; c < 9; c++) {
             SquareRealWorldLength.push_back(Point3f(c * RealWorldSquareDimension, r * RealWorldSquareDimension, 0.0f));
@@ -62,6 +70,7 @@ int main(int argc, const char * argv[]) {
     readxml.open("intrinsics.xml", cv::FileStorage::READ);
     readxml["camera_matrix"] >> cameraMatrix;
     readxml["distortion_coefficients"] >> distCoeffs;
+    
     cout << "intrinsic matrix:\n"; cout << cameraMatrix << "\n";
     cout << "distortion coefficients: \n"; cout << distCoeffs << endl;
     //readxml.release();
@@ -111,39 +120,59 @@ int main(int argc, const char * argv[]) {
             break;
         }
         
-        found = findChessboardCorners(img, Size(9,6), corners, found);  //Question 1, find chess board corners
+        /* Question 1
+        Build a system for detecting a target and extracting target corners.
+        Draw the chessboard corners when it finds them
+        */
+        
+        # findChessboardCorners is an OpenCV library to find the positions of internal corners of the chessboard.  Return True/False
+        found = findChessboardCorners(img, Size(9,6), corners, found);  
         
         if (found) {
             img.copyTo(img_g);
             img.copyTo(img_foundCorners);
             cvtColor(img, img_g, COLOR_BGR2GRAY);
             
-            //Question 1, store precise corrdinates by cornerSubPix
-            
+            /* Question 1, extract sub-pixel corrdinates using OpenCV cornerSubPix
+               @params  corner                  Stores extracted corners
+               @params  Size()                  Defines size of the neighborhood where it searches for corners.  Half side length of window, eg, (5*2+1) * (5*2+1)
+               @params  Size(-1,-1)             not rejecting any neighborhood size
+               @params  TermCriteria::EPS       difference between the current and previous function values less than threshold (0.001).
+               @params  TermCriteria::COUNT:    The number of iterations should not exceed the specified maximum (40).
+            */
             cornerSubPix(img_g, corners, Size(5,5), Size(-1, -1), TermCriteria(TermCriteria::EPS + TermCriteria::COUNT, 40,0.001));
             
-            // Question 2, draw chess board corners
-            
+            /* draw chess board corners */
             drawChessboardCorners(img_foundCorners, Size(9,6), corners, found);
+            
+            /* print out how many corners it finds, along with the coordinates of the first corner */
+            cout << "Corner size: " << corners.size() << "\n";       //Question 2, cout corners identified
+            cout << "First corner: " << corners[0].x << " " <<  corners[0].y << "\n";    //Question 2, cout first corner
             
             imshow("Image1", img_foundCorners);
             
-            cout << "corner size: " << corners.size() << "\n";       //Question 2, cout corners identified
-            cout << corners[0].x << " " <<  corners[0].y << "\n";    //Question 2, cout first corner
+            /* Question 2, let user specifies a particular image should be used for the calibration  
+               save the corner locations and the corresponding 3D world points.
+            */
             
-            if (key == 115) {           //press "s" to save real world and virtual world corner pairs   // Question 2
-                
+            //if user types 's', store the vector of corners found by findChessbordCorners into a corner_list.
+            if (key == 115) {          
                 cout << "corners list \n";
                 for (int i = 0; i < corners.size(); i++ ) {
                     cout << corners[i].x << " " <<  corners[i].y << "\n";
                 }
-                
+         
                 cout << "\n";
                 
+                /* every time when user strokes "s", a list set of corners is appended to a list wrapping corners of each press of "s" 
+                number of corners in the list has to be equal with real world coordinates */
                 cornerlist.push_back(corners);
-                
+   
+                /*  create a point_set that specifies the 3D position of the corners in world coordinates 
+                number of corners in the list has to be equal with corner list*/
                 RealWorldCoordinates_list.push_back(SquareRealWorldLength);
                 
+                /*
                 int i = 0; int j=0;
                 cout << "realworldcoordinates \n";
                 for (int i = 0; i < RealWorldCoordinates_list.size(); i++ ) {
@@ -152,27 +181,24 @@ int main(int argc, const char * argv[]) {
                     }
                     cout << "i " << i << " j " << j << "\n";
                 }
+                */
             
-                string checkerboardFile = "checkerboard_" + to_string(time(nullptr)) + ".png";  //Question 2, save images
+                /* save images with identified corners */
+                string checkerboardFile = "checkerboard_" + to_string(time(nullptr)) + ".png";
                 imwrite(checkerboardFile, img_foundCorners);
             }
             
-            //--- Question 4 solvepnp, calculate board's pose (rotation and translation)-------
-            /*
-            cout << "----- solvepnp ----- \n";
-            cout << "camera matrix: \n";
-            cout << cameraMatrix << "\n";
+            //--- Question 4 Calculate Current Position of the Camera, grabs the locations of the corners, and then uses solvePNP to get the board's pose (rotation and translation). ------
+            // solvePnP returns rotation, translation vectors that transform a 3D point to the camera coordinate frame
             
-            cout << "distcoeffs \n";
-            cout << distCoeffs << "\n";
-            */
             solvePnP(SquareRealWorldLength, corners, cameraMatrix, distCoeffs, rvecs, tvecs);
             cout << "rvecs: \n" << rvecs << "\n";
             cout << "tvecs: \n" << tvecs << "\n";
             
-            //---- Question 5 projectPoints and draw axis ----
+            //---- Question 5 project Points and draw axis ----
+            //use the projectPoints function to project the 3D points corresponding to the four outside corners of the chessboard onto the image plane in real time as the chessboard or camera moves around
             vector<Point2f> projected2dPoints;
-            vector <Point3f> testing3dPoints;
+            vector<Point3f> testing3dPoints;
             testing3dPoints.push_back(Point3f(0, 0, 0));
             testing3dPoints.push_back(Point3f(0.016, 0, 0));
             testing3dPoints.push_back(Point3f(0, 0.016, 0));
@@ -343,21 +369,19 @@ int main(int argc, const char * argv[]) {
              */
         }
         
-        // ----- Question 3 calibrate camera and press w to write parameters into a file -------------------------
-        if (key == 99) {          //press "c", Question 3, Calibrate camera
-            cameraMatrix = (Mat_<float>(3,3) << 1.0f, 0.0f, img.cols/2, 0.0f,1.0f,img.rows/2, 0.0f,0.0f,1.0f);
+        /* Question 3 calibrate camera and press w to write parameters into a file */
+        /* press "c", Calibrate camera */
+        if (key == 99) {          
             
-            for(int i=0; i<3; i++) {
-                for (int j=0; j<3; j++) {
-                    cout << cameraMatrix.at<float>(i,j) << " ";
-                }
-                cout << "\n";
-            }
+            cameraMatrix = (Mat_<float>(3,3) << 1.0f, 0.0f, img.cols/2, 
+                                                0.0f, 1.0f, img.rows/2, 
+                                                0.0f, 0.0f, 1.0f);
             
             distCoeffs =  Mat::zeros(8, 1, CV_64F);
             
-            float flag=CALIB_FIX_ASPECT_RATIO;
+            float flag = CALIB_FIX_ASPECT_RATIO;
             
+            //calibrateCamera function to generate the calibration and return RMS.  Returns rvecs, tvecs
             rms = calibrateCamera(RealWorldCoordinates_list, cornerlist, img.size(),  cameraMatrix, distCoeffs, rvecs, tvecs, flag);
                         
             cout << "Error: " << rms << "\n";
