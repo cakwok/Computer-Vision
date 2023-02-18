@@ -7,7 +7,7 @@ The end goal of the system is to recognise handwrittings, with system tunning to
 
 To prepare a real life testing dataset, as shown below the capture at the left, I pre-processed my own set of handwrittings into binary images.  This is to match with the format of the MNIST dataset. 
 
-At right upper corner, it shows the prediction result from the CNN before tunning.  As we can see the from the value of "prediction", about 60% of the characters were predicted correctly.  
+At right upper corner, it shows the prediction result from the CNN before tunning.  As we can see the from the "prediction" value, about 60% of the characters were predicted correctly.  
 
 ![image](https://user-images.githubusercontent.com/21034990/176381947-5a45a6b7-511a-4099-8e65-5be10de0ca08.png)
 
@@ -20,15 +20,15 @@ Q4i         Q4i - Design your own experiment Epoch.py<br>
 Q4ii        Q4ii - Design your own experiment batch size.py<br>
 Q4iii       Q4iii - Design your own experiment batch normalization.py<br>
 
-1. The MNIST digit data consists of a training dataset of 60k 28x28 labeled digits and a testing dataset of 10k 28x28 labeled digits. The dataset was imported directly from the torchvision package as torchvision.datasets.MNIST.   Below capture shows the examples of the MNIST digit dataset with the corresponding ground truth.
+The MNIST digit data consists of a training dataset of 60k 28x28 labeled digits and a testing dataset of 10k 28x28 labeled digits. The dataset was imported directly from the torchvision package as torchvision.datasets.MNIST.   Below capture shows the examples of the MNIST digit dataset with the corresponding ground truth.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177019922-2f674cf3-daf6-44cd-9e23-1e7fea3aa37c.png" width = 400>
 
-2. Built the network with 2 convolution layers with max pooling and dropout, then trained the model for 5 epochs with batch size = 64.  From the plot below, we can see when the system have been trained with 60k examples, meaning almost 1 epoch, that the negative log likelihood loss has significantly dropped from more than 2 to reach a plateau at surrounding the 0.5 of the cost function.
+Built the network with 2 convolution layers with max pooling and dropout, then trained the model for 5 epochs with batch size = 64.  From the plot below, we can see when the system have been trained with 60k examples, which is approximately 1 epoch, the negative log likelihood loss has significantly dropped from more than 2 to reach a plateau at around 0.5 of the cost function.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177019931-3d9b189b-c1cb-46df-9703-2f54866ce848.png" width = 400>
 
-From the network output as shown, we can further visualize the network has shown significant improvement at the second epoch.
+As observed from the network logging below, we can further visualize that the training has significant improvement at the second epoch.
 
 ```
 Test set: Avg. loss: 2.3065, Accuracy: 1101/10000 (11%)
@@ -44,7 +44,7 @@ Test set: Avg. loss: 0.0929, Accuracy: 9701/10000 (97%)
 Test set: Avg. loss: 0.0786, Accuracy: 9754/10000 (98%)
 ```
 
-The system is able to classify all 10 examples correctly after training.
+Now after the training, we can see the system is able to classify all testing samples correctly.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020029-8ffe6900-d00a-4c49-afb5-23c699d0652e.png" width = 400>
 
