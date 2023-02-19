@@ -52,7 +52,9 @@ Test set: Avg. loss: 0.0786, Accuracy: 9754/10000 (98%)
 After the training, we can see the system is able to classify all testing samples correctly.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020029-8ffe6900-d00a-4c49-afb5-23c699d0652e.png" width = 400>
-<img src = "https://user-images.githubusercontent.com/21034990/219908252-47c2cabd-4d9e-478e-95cb-45f830e88246.png" width = 400>
+
+Tables shows the observed network output (log softmax), ground truth, argmax
+<img src = "https://user-images.githubusercontent.com/21034990/219908252-47c2cabd-4d9e-478e-95cb-45f830e88246.png" width = 600>
 
 
 Now, to see if the system could recognise live handwrittings, I fed my own written numbers and scaled them down from 1k resolution to 28x28 as the testing dataset.  
