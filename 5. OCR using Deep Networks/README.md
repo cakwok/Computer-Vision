@@ -69,6 +69,20 @@ To analzye the first layer of the CNN and analyze how it processes data, I have 
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020072-10b6dbf9-f0a9-496c-bba3-73c386a161a4.png" width = 400>
 
+```
+Parameter containing:
+
+tensor([[[[ 0.0400,  0.3058,  0.0781,  0.1083, -0.0687],
+
+          [ 0.2779,  0.3820,  0.0521,  0.3355,  0.1946],
+
+          [ 0.3076,  0.1876,  0.2131,  0.0889,  0.3187],
+
+          [ 0.0804, -0.0923,  0.0143, -0.0979,  0.0445],
+
+          [-0.1237,  0.0518, -0.2613, -0.1508, -0.0363]]],
+```
+
 Then I used the fiter2D OpenCV function to apply the 10 filters to a training example, and observed the effect of the filters.  By observing the filters, it looks like the 5th filters (from left to right) is ridge detection as the boundary filters are all big negatives in value (black).
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020089-9992e96c-71d5-4d92-9b80-3900813899e2.png" width = 400>
@@ -83,22 +97,23 @@ Observe from the output, the sixth picture looks a sobel y filter, implying what
 
 Leveraging the model, I have built another submodel that terminates at the dense layer with 50 outputs and loading the learnt weight.  Then I applied a Greek letter dataset to obtain a set of 27 x 50 element vectors.  Instead of continuing the softmax operations, the vectors were extracted and computed the sum squared distance between sample-wise and pased to a KNN classifier.
 
-Now, using the same weights learnt from the MNIST dataset, I deployed an embedding with the network - trained the network with the same convolutional layers, then instead of passing to dense layers, i took out the vectors and passed them to my own KNN classifier.  By such, I can use my own choice of classifiers/predictors. (so now the network only has 2 convolutional layers with no output layers)
+Now, transformed the weights learnt from the MNIST dataset, I deployed an embedding with the network - trained the network with the same convolutional layers, projected the Greek letters and then instead of passing the representations of the Greek letters to dense layers, i extracted the vectors and passed them to my own KNN classifier.  By this technique, I can use my own choice of classifiers. (so now the network only has 2 convolutional layers with no output layers)
 
-And now, instead of feeding MINIST digits again, I trained the network with another 3 x 9 greek letters from professor, then tested with my own Greek letter handwrittings.
-
-With my own Greek symbol, the predictions is about 2/3 correctness.
+From the KNN classifier results, the system has reached 2/3 correctness (67% accuracy).
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020106-0deaa1c8-377d-4a21-bfd6-a938903f4b23.png" width = 400>
 
-6. Back to step 3, we want to get a better prediction performance.  Therefore, I have experimented tuning hyper parameters with 
+#### Design my own experiment
+To optimize prediction performance, I have experimented the follow ablation settings:
 - different number of epochs(5, 10, 15, 20, 25, 30) 
 - batch sizes 64, 128, 192, 256, 320, 384
 - replaced 2 dropout layers with 2 batch normalisation layers
 
-And run with this total 6 x 6 x 2(with batchnormal or with dropout) 72 variations/combinations.  The best parameters experimented, was 15 epochs or 256 as the batch size.
+in total 6 x 6 x 2(with batchnormal or with dropout) 72 variations/combinations.  
 
-Now, all digits are classified correctly.
+The best accuracy achieved, was the combination of 15 epochs and 256 as the batch size.
+
+After the tuning, all digits are classified correctly.
 
 <img src = "https://user-images.githubusercontent.com/21034990/179029073-98012bda-eda3-4578-b027-b7a7ba5b17c7.png"  width = 400>
 
