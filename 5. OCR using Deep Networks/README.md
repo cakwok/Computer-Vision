@@ -44,19 +44,18 @@ Test set: Avg. loss: 0.0929, Accuracy: 9701/10000 (97%)
 Test set: Avg. loss: 0.0786, Accuracy: 9754/10000 (98%)
 ```
 
-Now after the training, we can see the system is able to classify all testing samples correctly.
+
+After the training, we can see the system is able to classify all testing samples correctly.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020029-8ffe6900-d00a-4c49-afb5-23c699d0652e.png" width = 400>
 
-3.  Now, time to see if machine can tell the meaning of my handwrittings.  I fed my own handwritings to see how well the system predict/classify.  
+Now, to see if the system could recognise live handwrittings, I fed my own written numbers and scaled them down from 1k resolution to 28x28 as the testing dataset.  
 
-The challenge to the prediction is, my own handwritting images were scaled down from 1k to 28x28, so despite it was written fairly thick at a whiteboard, the scaled down images are still not as strong in intensity as the MNIST dataset.
-
-So the result of prediction can just achieve 60% accuracy, but we will see later on it could be fixed.
+The systen could only achieve 60% accuracy at this stage, but we will see later on it could be fixed.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020056-a88ca893-9d17-4ab5-b7df-ad99cf590942.png" width = 400>
 
-4.Neural network is well known as black boxes.  Below I am trying to examine convolutional network and analysis the first convolutional layer
+To analzye the first layer of the CNN, I have accessed the weights by model.conv1.weight.  The result is a tensor in [10, 1, 5,5] shape, where 10 means 10 filters with 5x5 patch size.  To access the ith 5x5 filter, I used weights[i,0] to observe filter weights and the shape.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020072-10b6dbf9-f0a9-496c-bba3-73c386a161a4.png" width = 400>
 
