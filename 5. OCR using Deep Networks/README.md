@@ -1,13 +1,13 @@
 # OCR Using CNN
-In this project, I have built, trained, analyzed, modified a Convolutional Neural Network CNN to learn recognizing numbers and greek letters.
+In this project, I have built, trained, analyzed, modified a Convolutional Neural Network CNN to learn recognizing numbers and Greek letters, alongside with creating feature embeddings and transfer learning.
 
-The end goal of the system is to recognise handwrittings, with system tunning to achieve 90% accuracy.
+The objective of the project is to achieve recognition accuracy of over 90% for handwritten characters.
 
 ### Method
 
-To prepare a real life testing dataset, as shown below the capture at the left, I pre-processed my own set of handwrittings into binary images.  This is to match with the format of the MNIST dataset. 
+To prepare a real life testing dataset, as shown below in the capture, I pre-processed my own set of handwrittings into binary images.  This is to match with the format of the MNIST dataset. 
 
-At right upper corner, it shows the prediction result from the CNN before tunning.  As we can see the from the "prediction" value, about 60% of the characters were predicted correctly.  
+At right upper corner, the unoptimized prediction result is displayed.  As we can count from the "prediction" value, the model achieved a correct prediction rate of approximately 60% in the test set. This indicates the model requires additional tuning and optimization to achieve higher accuracy.
 
 ![image](https://user-images.githubusercontent.com/21034990/176381947-5a45a6b7-511a-4099-8e65-5be10de0ca08.png)
 
@@ -20,19 +20,21 @@ Q4i         Q4i - Design your own experiment Epoch.py<br>
 Q4ii        Q4ii - Design your own experiment batch size.py<br>
 Q4iii       Q4iii - Design your own experiment batch normalization.py<br>
 
+### EDA
 The MNIST digit data consists of a training dataset of 60k 28x28 labeled digits and a testing dataset of 10k 28x28 labeled digits. The dataset was imported directly from the torchvision package as torchvision.datasets.MNIST.   Below capture shows the examples of the MNIST digit dataset with the corresponding ground truth.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177019922-2f674cf3-daf6-44cd-9e23-1e7fea3aa37c.png" width = 400>
 
+### Built the CNN
 Built the network with 2 convolution layers with max pooling and dropout, then trained the model for 5 epochs with batch size = 64.  
 
 <img src = "https://user-images.githubusercontent.com/21034990/219908228-7e2e7bf2-e7d5-4e2c-82f9-88d94cec1c33.png" width = 400>
 
-From the plot below, we can see when the system have been trained with 60k examples, which is approximately 1 epoch, the negative log likelihood loss has significantly dropped from more than 2 to reach a plateau at around 0.5 of the cost function.
+Upon completing 5 epochs, the plotted data indicates that the negative log likelihood loss function has shown a significant reduction in value, from over 2 to plateau around 0.5, after processing approximately 60,000 examples which is roughly equal to 1 epoch.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177019931-3d9b189b-c1cb-46df-9703-2f54866ce848.png" width = 400>
 
-As observed from the network logging below, we can further visualize that the training has significant improvement at the second epoch.
+And by observing from the network logging, we can further visualize that the training has significant improvement at the second epoch.
 
 ```
 Test set: Avg. loss: 2.3065, Accuracy: 1101/10000 (11%)
