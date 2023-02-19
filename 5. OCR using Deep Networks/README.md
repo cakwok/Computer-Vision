@@ -24,7 +24,11 @@ The MNIST digit data consists of a training dataset of 60k 28x28 labeled digits 
 
 <img src = "https://user-images.githubusercontent.com/21034990/177019922-2f674cf3-daf6-44cd-9e23-1e7fea3aa37c.png" width = 400>
 
-Built the network with 2 convolution layers with max pooling and dropout, then trained the model for 5 epochs with batch size = 64.  From the plot below, we can see when the system have been trained with 60k examples, which is approximately 1 epoch, the negative log likelihood loss has significantly dropped from more than 2 to reach a plateau at around 0.5 of the cost function.
+Built the network with 2 convolution layers with max pooling and dropout, then trained the model for 5 epochs with batch size = 64.  
+
+<img src = "https://user-images.githubusercontent.com/21034990/219908228-7e2e7bf2-e7d5-4e2c-82f9-88d94cec1c33.png" width = 400>
+
+From the plot below, we can see when the system have been trained with 60k examples, which is approximately 1 epoch, the negative log likelihood loss has significantly dropped from more than 2 to reach a plateau at around 0.5 of the cost function.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177019931-3d9b189b-c1cb-46df-9703-2f54866ce848.png" width = 400>
 
@@ -48,6 +52,8 @@ Test set: Avg. loss: 0.0786, Accuracy: 9754/10000 (98%)
 After the training, we can see the system is able to classify all testing samples correctly.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020029-8ffe6900-d00a-4c49-afb5-23c699d0652e.png" width = 400>
+![image](https://user-images.githubusercontent.com/21034990/219908252-47c2cabd-4d9e-478e-95cb-45f830e88246.png)
+
 
 Now, to see if the system could recognise live handwrittings, I fed my own written numbers and scaled them down from 1k resolution to 28x28 as the testing dataset.  
 
@@ -55,19 +61,27 @@ The systen could only achieve 60% accuracy at this stage, but we will see later 
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020056-a88ca893-9d17-4ab5-b7df-ad99cf590942.png" width = 400>
 
-To analzye the first layer of the CNN, I have accessed the weights by model.conv1.weight.  The result is a tensor in [10, 1, 5,5] shape, where 10 means 10 filters with 5x5 patch size.  To access the ith 5x5 filter, I used weights[i,0] to observe filter weights and the shape.
+### Examine the network
+
+To analzye the first layer of the CNN and analyze how it processes data, I have accessed the weights by model.conv1.weight.  The result is a tensor in [10, 1, 5,5] shape, where 10 means 10 filters with 5x5 patch size.  To access the ith 5x5 filter, I used weights[i,0] to observe filter weights and the shape.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020072-10b6dbf9-f0a9-496c-bba3-73c386a161a4.png" width = 400>
 
-By observing the filters, it looks like the 5th filters (from left to right) is ridge detection as the boundary filters are all big negatives in value (black).
+Then I used the fiter2D OpenCV function to apply the 10 filters to a training example, and observed the effect of the filters.  By observing the filters, it looks like the 5th filters (from left to right) is ridge detection as the boundary filters are all big negatives in value (black).
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020089-9992e96c-71d5-4d92-9b80-3900813899e2.png" width = 400>
 
-To observe the second convolutional layer, I have built a truncated model.  The sixth picture looks like sobel y filter.
+Next, I built a truncated model to use only the first 2 convolutional layers in order to observe the weight of the second layer, by creating a subclass of the model, overriding the forward method, and displaying few channels out of the 20 channels that are 4x4 in size.  
+
+Observe from the output, the sixth picture looks a sobel y filter, implying what the second layer was trying to learn.
 
 <img src = "https://user-images.githubusercontent.com/21034990/177020099-71c2df2a-5189-407a-ae87-1907d8aff43b.png" width = 400>
 
-5.Now, using the same weights learnt from the MNIST dataset, I deployed an embedding with the network - trained the network with the same convolutional layers, then instead of passing to dense layers, i took out the vectors and passed them to my own KNN classifier.  By such, I can use my own choice of classifiers/predictors. (so now the network only has 2 convolutional layers with no output layers)
+#### Create a digit embedding space
+
+Leveraging the model, I have built another submodel that terminates at the dense layer with 50 outputs and loading the learnt weight.  Then I applied a Greek letter dataset to obtain a set of 27 x 50 element vectors.  Instead of continuing the softmax operations, the vectors were extracted and computed the sum squared distance between sample-wise and pased to a KNN classifier.
+
+Now, using the same weights learnt from the MNIST dataset, I deployed an embedding with the network - trained the network with the same convolutional layers, then instead of passing to dense layers, i took out the vectors and passed them to my own KNN classifier.  By such, I can use my own choice of classifiers/predictors. (so now the network only has 2 convolutional layers with no output layers)
 
 And now, instead of feeding MINIST digits again, I trained the network with another 3 x 9 greek letters from professor, then tested with my own Greek letter handwrittings.
 
