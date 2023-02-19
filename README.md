@@ -6,10 +6,13 @@ Developed with C++, OpenCV, to build a live video system with special effect fro
 #### Project2 - Content-based Image Retrieval
 Developed with C++, OpenCV, to retrieve feature vectors, spatial and statistical information from targeted images, then return top N matches.
 
+#### Project 3. Real-time Object 2-D Recognition
+Developed with C++, OpenCV, to detect real time objects by converting images into binary, and extract features from connected segments
+
 #### Project4 - Project4 - Calibration and Augmented Reality
 Developed with C++, OpenCV, to build an augmented reality application.
 
-#### Project5 - CNN Recognition using Deep Networks
+#### Project5 - OCR using Deep Networks
 Developed with Pytorch, the codes detect numbers and greek letters.
 
 #### Project6 - Generative and Adversarial Network
