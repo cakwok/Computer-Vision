@@ -76,7 +76,7 @@ Besides choosing to extract features by checkerboard, Harris corners could be an
 ![image](https://user-images.githubusercontent.com/21034990/218817743-33c80e92-c973-4e9c-8517-82ed16cb553d.png)
 <img src="https://user-images.githubusercontent.com/21034990/218817795-06017179-8e29-4f0c-8112-25f192b85c35.png" width = "210"><br>
 
-### Detect and Extract ArUCO Markers
+### Detect and Extract ArUCO Markers, Homography
 In this work, I have tried to identify key points using ArUCO Markers, and wrapped a virtual picture of the scene enclosed by ArUCO Markers.
 
 Homography is another application of perspective geometry, so the key points are identified and transformed irrespective to change of perspective.  This task uses cv::findHomography to map the key points between ArUCO markers and an targeted image, then wrap image perspective so when the real object move, the virtual picture moves synchronisely. 
