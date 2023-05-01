@@ -14,5 +14,5 @@ Dataset is based on the A2I2-Haze, the first real haze dataset with in-situ smok
 
 #### Results
 Using YOLOv8 as the object detection framework, the model has achieved 0.994 mAP50 and 0.933 mAP50-95.
-<img src = "https://user-images.githubusercontent.com/21034990/234171858-aaad009e-f3fe-4bc3-9088-d58daccce5b0.png" width = 500>
-<img src = "https://user-images.githubusercontent.com/21034990/234171878-5f18fbe4-6378-4e61-abc2-6c83a5fd6bda.png" width = 500>
+<img src = "https://user-images.githubusercontent.com/21034990/235518520-5bf91179-6947-43d5-82ef-1e9455c895cb.png" width = 700>
+<img src = "https://user-images.githubusercontent.com/21034990/235518374-397f53e4-c3b0-4864-a46e-73a26f30cfbb.png" width = 700>
