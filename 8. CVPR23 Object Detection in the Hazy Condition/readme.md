@@ -5,5 +5,7 @@ Scene understanding for applications such as intelligence, surveillance, and rec
 
 The challenge aims to evaluate and advance object detection algorithms’ robustness on images captured from hazy environmental situations.
 
+#### Methodology
+Using YOLOv8 as the object detection framework, the model has achieved 0.994 mAP50 and 0.933 mAP50-95.
 <img src = "https://user-images.githubusercontent.com/21034990/234171858-aaad009e-f3fe-4bc3-9088-d58daccce5b0.png" width = 500>
 <img src = "https://user-images.githubusercontent.com/21034990/234171878-5f18fbe4-6378-4e61-abc2-6c83a5fd6bda.png" width = 500>
