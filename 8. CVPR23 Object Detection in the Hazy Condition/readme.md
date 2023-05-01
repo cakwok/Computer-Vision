@@ -1,3 +1,5 @@
+![image](https://user-images.githubusercontent.com/21034990/235517053-4ad76849-efc8-4881-973f-c7c4fcde1e04.png)
+
 ### Object Detection in Haze
 The objective of the research work is to participate in the CVPR2023 UG2 challenge - Object Detection in Haze.
 
