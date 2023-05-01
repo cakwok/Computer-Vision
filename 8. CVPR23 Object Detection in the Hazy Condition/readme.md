@@ -6,6 +6,8 @@ Scene understanding for applications such as intelligence, surveillance, and rec
 The challenge aims to evaluate and advance object detection algorithms’ robustness on images captured from hazy environmental situations.
 
 #### Methodology
+Dataset is based on the A2I2-Haze, the first real haze dataset with in-situ smoke measurement aligned to aerial imagery. A2I2-Haze has paired haze and haze-free imagery that will allow fine-grained evaluation of computer vision algorithms.  A total of 229 paired hazy/clean frame images extracted from 12 videos. 
+
 Using YOLOv8 as the object detection framework, the model has achieved 0.994 mAP50 and 0.933 mAP50-95.
 <img src = "https://user-images.githubusercontent.com/21034990/234171858-aaad009e-f3fe-4bc3-9088-d58daccce5b0.png" width = 500>
 <img src = "https://user-images.githubusercontent.com/21034990/234171878-5f18fbe4-6378-4e61-abc2-6c83a5fd6bda.png" width = 500>
